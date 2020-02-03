@@ -5,11 +5,36 @@
 # If divisible by 5 = print bar
 # Otherwise print x
 
-for i in range(101):
-    if i % 3 == 0:
-        print("foo", end="")
-    if i % 5 == 0:
-        print("bar", end="")
-    if i % 3 != 0 and i % 5 != 0:
-        print(i, end="")
-    print("")  # Add a newline when a number has been evaluated
+# Be wary of making the implementation fixed at compile time.
+# It should be possible to change something at runtime.
+
+def foo_bar(number, dictionary):
+    """
+    Takes a number and a dictionary, finds out if the key in dictionary is divisible by the current number.
+    If it is, the function will print out the corresponding value from dictionary.
+    :param number:
+    :param dictionary:
+    :return:
+    """
+    for i in range(number + 1):
+        message = ""
+        for key, value in dictionary.items():
+            if i % key == 0:
+                message += value
+        if not message:  # Since message is empty, it is falsy
+            print(i)
+        else:
+            print(message)
+        # Alternative method, that is not as logically solid
+        # print(message or i)
+
+
+dictionary = {
+    3: "Foo",
+    4: "Buz",
+    5: "Bar",
+    7: "Fiz"
+}
+foo_bar(25, dictionary)
+
+help(foo_bar)

@@ -26,7 +26,7 @@ Definition of functions
 > def f("name"):
 >   print(f"Hello, {name}")
 
-It's also possible to return many things
+It's also possible to return many different things
 > def f():
 >   return 42, 47
 >
