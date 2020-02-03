@@ -51,7 +51,16 @@ If you dont know how many numbers you need, its better to use Generator objects
 > <generator object <genexpr> at 0x109e38b30>
 
 Dictionaries
+Very quick to get things from, since it's nearly instantanious.
+Uses a hash function to save and find the key
 > d = {"name": "Rasmus", "color": "Orange"}
 >d["name"]
 >"Rasmus"
+
+Set
+There are no duplicates in a set
+Very effective to get rid of duplicates in a list, turn a list into a set and back into a list.
+This would be done, if mutability is important.
+> s = set([1,2,2,3,3])
+>s is equal to [1,2,3]
 
