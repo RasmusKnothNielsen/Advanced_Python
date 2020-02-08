@@ -20,7 +20,7 @@ def foo_bar(number, dictionary):
         Collection of numbers and corresponding words, that should be outputted each time the current
         number is divisible by the key in the dictionary.
 
-    :return: Void
+    :return: void
         The function prints the output to the console.
     """
     for i in range(number + 1):
