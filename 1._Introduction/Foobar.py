@@ -8,6 +8,7 @@
 # Be wary of making the implementation fixed at compile time.
 # It should be possible to change something at runtime.
 
+
 def foo_bar(number, dictionary):
     """
     Takes a number and a dictionary, finds out if the key from the dictionary is divisible by the current number.
