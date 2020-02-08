@@ -10,11 +10,18 @@
 
 def foo_bar(number, dictionary):
     """
-    Takes a number and a dictionary, finds out if the key in dictionary is divisible by the current number.
+    Takes a number and a dictionary, finds out if the key from the dictionary is divisible by the current number.
     If it is, the function will print out the corresponding value from dictionary.
-    :param number:
-    :param dictionary:
-    :return:
+
+    :param number: int
+        The number of times we want to iterate. Inclusive.
+
+    :param dictionary: dict
+        Collection of numbers and corresponding words, that should be outputted each time the current
+        number is divisible by the key in the dictionary.
+
+    :return: Void
+        The function prints the output to the console.
     """
     for i in range(number + 1):
         message = ""
@@ -35,6 +42,7 @@ dictionary = {
     5: "Bar",
     7: "Fiz"
 }
+
 foo_bar(25, dictionary)
 
 help(foo_bar)
