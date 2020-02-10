@@ -6,6 +6,12 @@ class Color:
     >>> print(Color(1,0,0) + Color(1,0,0))
     Color(r: 1, g: 0, b: 0)
 
+    >>> print(Color(2,0,0) + Color(0,0,2))
+    Color(r: 1, g: 0, b: 1)
+
+    >>> print(Color(-10, 0, 0) + Color(0, -20, 0))
+    Color(r: 0, g: 0, b: 0)
+
     """
 
     def __init__(self, r, g, b):
