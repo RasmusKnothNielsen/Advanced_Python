@@ -119,10 +119,13 @@ if __name__ == '__main__':
     root.insert(13)
     root.insert(1)
 
+    print("Printing full tree:")
+    print(root.print_tree())
     root = deleteNode(root, 2)
+    print("Removing node 2:")
 
     print(root.print_tree())
 
     list_of_numbers = [5, 2, 6, 9, 3, 1, 65, 23]
-    print(list_of_numbers.pop())
+    print(list_of_numbers.pop(0))
     print(list_of_numbers)
