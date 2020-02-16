@@ -12,6 +12,9 @@
     - Test the code
     """
 
+# import testmod for testing our functionality
+from doctest import testmod
+
 
 class Node:
     """
@@ -21,6 +24,15 @@ class Node:
     def __init__(self, *value):
         """
         Initializing method that creates the binary tree and fills it with value(s)
+
+        >>> root = Node(10)
+        >>> root.print_tree()
+        [10]
+
+        >>> root = Node(*[4,6,2,8])
+        >>> root.print_tree()
+        [[2], 4, [6, [8]]]
+
 
         :param value: int or list
             an integer or a list of integers that are going to be added to the binary tree
@@ -46,6 +58,16 @@ class Node:
 
         It is using the * syntax, which allows for unpacking of values,
         if a list of values are provided at method call.
+
+        >>> root = Node(4)
+        >>> root.insert(2)
+        >>> root.print_tree()
+        [[2], 4]
+
+        >>> root = Node(*[6,3,9])
+        >>> root.insert(5)
+        >>> root.print_tree()
+        [[3, [5]], 6, [9]]
 
         :param data: Single value or list of values
             The value og the list of values that we want to insert into the binary tree
@@ -73,6 +95,16 @@ class Node:
     def delete_node(self, *data):
         """
         This method deletes the provided value(s) in the binary tree that it is called upon.
+
+        >>> root = Node(*[4,7,9,1])
+        >>> root.delete_node(7)
+        >>> root.print_tree()
+        [[1], 4, [9]]
+
+        >>> root = Node(*[5,8,3,1,6,9,7,10])
+        >>> root.delete_node(*[8,6,9])
+        >>> root.print_tree()
+        [[[1], 3], 5, [[7], 10]]
 
         :param self: Node
             The binary tree on which we want to delete a node from.
@@ -105,12 +137,10 @@ class Node:
                 # Node with only one child or no child
                 if self.left is None:
                     temp = self.right
-                    self = None
                     return temp
 
                 elif self.right is None:
                     temp = self.left
-                    self = None
                     return temp
 
                 # Node with two children: Get the in order successor
@@ -155,6 +185,10 @@ def min_value_node(node):
 
 
 if __name__ == '__main__':
+
+    # Enable the test module
+    testmod(name='__init__.Node', verbose=True)
+
     # Create a list of numbers to feed into the insert method
     list_of_numbers = [5, 2, 6, 9, 3, 1, 65, 23]
 
@@ -163,7 +197,6 @@ if __name__ == '__main__':
     root = Node(*list_of_numbers)
     print(root.print_tree())
     print()
-
 
     # Insert a single value
     print("Inserting single values into the binary tree")
