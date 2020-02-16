@@ -12,9 +12,6 @@
     - Test the code
     """
 
-# import testmod for testing our functionality
-from doctest import testmod
-
 
 class Node:
     """
@@ -186,8 +183,11 @@ def min_value_node(node):
 
 if __name__ == '__main__':
 
-    # Enable the test module
-    testmod(name='__init__.Node', verbose=True)
+    # Only import doctest if this class is the main class
+    import doctest
+
+    # Run the tests
+    doctest.testmod()
 
     # Create a list of numbers to feed into the insert method
     list_of_numbers = [5, 2, 6, 9, 3, 1, 65, 23]
