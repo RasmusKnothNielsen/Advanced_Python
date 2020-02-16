@@ -25,21 +25,22 @@ class Node:
         self.data = value
 
     # Method that inserts data into the right place in the Binary Tree
-    def insert(self, data):
-        # Compare the new value with the parent node
-        if self.data:
-            if data < self.data:
-                if self.left is None:
-                    self.left = Node(data)
-                else:
-                    self.left.insert(data)
-            elif data > self.data:
-                if self.right is None:
-                    self.right = Node(data)
-                else:
-                    self.right.insert(data)
-        else:
-            self.data = data
+    def insert(self, *data):
+        for number in data:
+            # Compare the new value with the parent node
+            if self.data:
+                if number < self.data:
+                    if self.left is None:
+                        self.left = Node(number)
+                    else:
+                        self.left.insert(number)
+                elif number > self.data:
+                    if self.right is None:
+                        self.right = Node(number)
+                    else:
+                        self.right.insert(number)
+            else:
+                self.data = number
 
     def print_tree(self):
         result = []
@@ -110,22 +111,9 @@ def deleteNode(root, data):
 
 
 if __name__ == '__main__':
-    root = Node(10)
-    root.insert(4)
-    root.insert(12)
-    root.insert(2)
-    root.insert(3)
-    root.insert(15)
-    root.insert(13)
-    root.insert(1)
 
-    print("Printing full tree:")
-    print(root.print_tree())
-    root = deleteNode(root, 2)
-    print("Removing node 2:")
-
-    print(root.print_tree())
-
+    # Create a list of numbers to feed into the insert method
     list_of_numbers = [5, 2, 6, 9, 3, 1, 65, 23]
-    print(list_of_numbers.pop(0))
-    print(list_of_numbers)
+    root = Node(20)
+    root.insert(*list_of_numbers)
+    print(root.print_tree())
