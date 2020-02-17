@@ -1,12 +1,17 @@
 """
-An implementation of a Vector in 2D space,
-Complete with tests and docstrings
-
+@Author: Rasmus Knoth Nielsen
+Advanced Python course
+4. Semester, AP in Computer Science, KEA, Denmark
 """
+
 from math import hypot
 
 
 class Vector:
+    """
+    An implementation of a Vector in 2D space,
+    Complete with tests and docstrings
+    """
 
     def __init__(self, x, y):
         """
