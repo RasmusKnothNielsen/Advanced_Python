@@ -11,3 +11,15 @@ like:
 
 
 
+###__str__ vs __repr__
+
+> __str__
+
+Returns a string representation of the object it is called upon
+
+> __repr__
+
+Returns a string representation that is parsed as an actual object of the same type as the object it 
+is called upon.
+
+

@@ -74,13 +74,13 @@ class Vector:
         """
         return bool(abs(self))
 
-
     def __repr__(self):
         """
-        Method to return a representation of the Vector as a string
+        Method to return a representation of the Vector as a string that is parsed as a Vector object
 
         :return: String
             A string representation of the vector, the method has been called upon.
+            It is important to note that since we use __repr__ we get a Vector Object in the end.
         """
         return "Vector(%r, %r)" % (self.x, self.y)
 
