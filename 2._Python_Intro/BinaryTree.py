@@ -10,7 +10,11 @@
     - Separate configuration from implementation
     - Single Responsibility Principle
     - Test the code
-    """
+
+@Author: Rasmus Knoth Nielsen
+Advanced Python course
+4. Semester, AP in Computer Science, KEA, Denmark
+"""
 
 
 class Node:
