@@ -3,7 +3,6 @@
 Advanced Python course
 4. Semester, AP in Computer Science, KEA, Denmark
 """
-
 from math import hypot
 
 
@@ -25,6 +24,16 @@ class Vector:
         """
         self.x = x
         self.y = y
+
+    def __repr__(self):
+        """
+        Method to return a representation of the Vector as a string that is parsed as a Vector object
+
+        :return: String
+            A string representation of the vector, the method has been called upon.
+            It is important to note that since we use __repr__ we get a Vector Object in the end.
+        """
+        return f"Vector({self.x}, {self.y})"
 
     def __add__(self, other):
         """
@@ -48,8 +57,12 @@ class Vector:
         """
         Method that subtracts a vector with another, by subtracting the x values with each other and the y values
         and subtracting it with each other.
-        :param other:
-        :return:
+
+        :param other: Vector
+            The vector that we want to subtract from the vector the method is called upon.
+
+        :return: Vector
+            Returns the new vector that is the product of the two given vectors subtracted each other.
         """
         new_vector = Vector(self.x - other.x, self.y - other.y)
         return new_vector
@@ -69,30 +82,22 @@ class Vector:
 
     def __bool__(self):
         """
+        Method that returns a boolean value, according to what values are inside the vector.
 
         >>> True if Vector(0, 0) else False
         False
         >>> True if Vector(1, 0) else False
         True
 
-        :return:
+        :return: boolean
+            Return the absolute value of the vector, since it is falsy if both values are zero
         """
         return bool(abs(self))
 
-    def __repr__(self):
-        """
-        Method to return a representation of the Vector as a string that is parsed as a Vector object
-
-        :return: String
-            A string representation of the vector, the method has been called upon.
-            It is important to note that since we use __repr__ we get a Vector Object in the end.
-        """
-        return "Vector(%r, %r)" % (self.x, self.y)
-
     def __mul__(self, scalar):
         """
-
         Method to extending a vector with the given scalar value.
+
         >>> v = Vector(3, 4)
         >>> v * 3
         Vector(9, 12)
@@ -111,4 +116,4 @@ class Vector:
 if __name__ == '__main__':
     # Import and run the doctest if the class is run as main
     import doctest
-    doctest.testmod()
+    doctest.testmod(verbose=True, optionflags=doctest.ELLIPSIS)
