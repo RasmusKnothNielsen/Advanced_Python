@@ -19,6 +19,27 @@ class Node:
     >>> root.remove(0)
     >>> root.sorted_list()
     [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    >>> root.remove(10)
+    'Tree does not contain 10.'
+    >>> root.sorted_list()
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    >>> root.insert([8, 4, 10])
+    >>> root.sorted_list()
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    >>> rootStrings = Node(*["Fred", "William", "Tally"])
+    >>> rootStrings.sorted_list()
+    ['Fred', 'Tally', 'William']
+    >>> rootStrings.insert(['S'])
+    >>> rootStrings.insert(['s'])
+    >>> rootStrings.sorted_list()
+    ['Fred', 'S', 'Tally', 'William', 's']
+
+
+    >>> root.insert(['a'])
+    >>> root.sorted_list()
+
+
     """
 
     # Removed value/values and using asterisk unpacking
@@ -69,7 +90,7 @@ class Node:
         try:
             subtree.remove(value)
         except ValueError:
-            raise ValueError(f'Tree does not contain {value}.')
+            return False
         random.shuffle(subtree)
         self.left = None
         self.right = None
@@ -78,6 +99,7 @@ class Node:
             self.insert(subtree)
         else:
             self.value = None
+        return True
 
     # Changed from subtree to sorted_list
     def sorted_list(self):
@@ -112,6 +134,22 @@ class Node:
 
 
 if __name__ == '__main__':
+    """
+    Added testcases:
+    - What happens if we input the same value several times? 
+    - What happens if we remove something that is not in the tree?
+    - What happens if we input chars into a tree with integers?
+    - What happens if we input a lower case letter and a upper case letter in to a String Tree?
+    - What happens 
+    
+    Added a way to check if the value already exist in the tree, so we don't add it twice
+    
+    Changed subtree name to sorted_list, for a more pythonic description of the function
+    
+    Changed errorhandling in remove, so it returns true if item removed or else it returns false. No crashing.
+    """
+
+
     import doctest
 
     doctest.testmod()
@@ -120,8 +158,15 @@ if __name__ == '__main__':
     root = Node(*list_of_numbers)
     root.insert([9])
     print(root.sorted_list())
+    root.insert([1, 5, 8, 10])
+    print(root.sorted_list())
 
     print(root.__repr__())
+
+    print("Int value of ASCII S: " + str(ord('S')))
+    print("Int value of ASCII s: " + str(ord('s')))
+    print("Int value of ASCII T: " + str(ord("T")))
+    print("Int value of ASCII t: " + str(ord("t")))
 
     
 
