@@ -17,10 +17,11 @@ class Node:
     >>> root.sorted_list()
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     >>> root.remove(0)
+    True
     >>> root.sorted_list()
     [1, 2, 3, 4, 5, 6, 7, 8, 9]
     >>> root.remove(10)
-    'Tree does not contain 10.'
+    False
     >>> root.sorted_list()
     [1, 2, 3, 4, 5, 6, 7, 8, 9]
     >>> root.insert([8, 4, 10])
@@ -45,7 +46,8 @@ class Node:
     # Removed value/values and using asterisk unpacking
     def __init__(self, *values):
         """ Class initializer.
-        Arguments: value = object | values = sequence of objects.
+        Arguments: values
+            Can be one or several, using unpacking
         """
         counter = 0
         for value in values:
@@ -70,18 +72,23 @@ class Node:
 
     def insert(self, values):
         """ Insert value into tree.
+
+        values:
+            Can either be one or several values in a list
         """
+
         for value in values:
-            if value < self.value:
-                if self.left:
-                    self.left.insert([value])
+            if not self.already_in_tree(value):     # If the value is not in the tree
+                if value < self.value:
+                    if self.left:
+                        self.left.insert([value])
+                    else:
+                        self.left = Node(value)
                 else:
-                    self.left = Node(value)
-            else:
-                if self.right:
-                    self.right.insert([value])
-                else:
-                    self.right = Node(value)
+                    if self.right:
+                        self.right.insert([value])
+                    else:
+                        self.right = Node(value)
 
     def remove(self, value):
         """ Remove element with value from tree.
@@ -132,6 +139,11 @@ class Node:
         """
         return max(0, min(1, math.ceil(math.log2(len(self))) / self.height())) if self.height() > 0 else 0
 
+    def already_in_tree(self, value):
+        """ Checks if the value is already in the binary tree
+        Value:
+            The value to be checked."""
+        return value in self.sorted_list()
 
 if __name__ == '__main__':
     """
@@ -163,6 +175,7 @@ if __name__ == '__main__':
 
     print(root.__repr__())
 
+    """ Showing how chars are being calculated """
     print("Int value of ASCII S: " + str(ord('S')))
     print("Int value of ASCII s: " + str(ord('s')))
     print("Int value of ASCII T: " + str(ord("T")))
