@@ -70,6 +70,12 @@ class Node:
         """
         return len(self.sorted_list())
 
+    def __contains__(self, value):
+        """ Checks if the value is already in the binary tree
+        Value:
+            The value to be checked."""
+        return value in self.sorted_list()
+
     def insert(self, values):
         """ Insert value into tree.
 
@@ -78,7 +84,7 @@ class Node:
         """
 
         for value in values:
-            if not self.already_in_tree(value):     # If the value is not in the tree
+            if not self.__contains__(value):     # If the value is not in the tree
                 if value < self.value:
                     if self.left:
                         self.left.insert([value])
@@ -139,11 +145,6 @@ class Node:
         """
         return max(0, min(1, math.ceil(math.log2(len(self))) / self.height())) if self.height() > 0 else 0
 
-    def already_in_tree(self, value):
-        """ Checks if the value is already in the binary tree
-        Value:
-            The value to be checked."""
-        return value in self.sorted_list()
 
 if __name__ == '__main__':
     """
@@ -152,13 +153,17 @@ if __name__ == '__main__':
     - What happens if we remove something that is not in the tree?
     - What happens if we input chars into a tree with integers?
     - What happens if we input a lower case letter and a upper case letter in to a String Tree?
-    - What happens 
     
-    Added a way to check if the value already exist in the tree, so we don't add it twice
+    Added __contains__ dunder method
     
     Changed subtree name to sorted_list, for a more pythonic description of the function
     
-    Changed errorhandling in remove, so it returns true if item removed or else it returns false. No crashing.
+    Changed error handling in remove, so it returns true if item removed or else it returns false. No crashing.
+    
+    TODO:
+    - Consider if it makes sense to implement __getitem__ method
+    - What about __iter__() method?
+    - Fix the error, when adding a str to an int tree. How to handle it?
     """
 
 
@@ -180,6 +185,8 @@ if __name__ == '__main__':
     print("Int value of ASCII s: " + str(ord('s')))
     print("Int value of ASCII T: " + str(ord("T")))
     print("Int value of ASCII t: " + str(ord("t")))
+
+    print(root[4])
 
     
 
