@@ -10,6 +10,9 @@ import random
 
 class Node:
     """ Binary tree node. A root node serves as an entry point for the tree.
+
+    Tests:
+
     >>> root = Node(*[5, 1, 7, 8, 2, 3, 0, 9, 6])
     >>> root.sorted_list()
     [0, 1, 2, 3, 5, 6, 7, 8, 9]
@@ -39,14 +42,14 @@ class Node:
 
     >>> root.insert(['a'])
     >>> root.sorted_list()
-
-
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 'a']
     """
 
     # Removed value/values and using asterisk unpacking
     def __init__(self, *values):
         """ Class initializer.
-        Arguments: values
+
+        :param: values
             Can be one or several, using unpacking
         """
         counter = 0
@@ -67,24 +70,32 @@ class Node:
 
     def __len__(self):
         """ Returns number of nodes in the binary tree.
+
+        :return: Int
+            Returns the size of the binary tree
         """
         return len(self.sorted_list())
 
     def __contains__(self, value):
         """ Checks if the value is already in the binary tree
-        Value:
-            The value to be checked."""
+
+        :param value:
+            The value to be checked.
+
+        :return: bool
+            Returns true if tree contains value, else false."""
+
         return value in self.sorted_list()
 
     def insert(self, values):
         """ Insert value into tree.
 
-        values:
+        :param values:
             Can either be one or several values in a list
         """
 
         for value in values:
-            if not self.__contains__(value):     # If the value is not in the tree
+            if not self.__contains__(value):  # If the value is not in the tree
                 if value < self.value:
                     if self.left:
                         self.left.insert([value])
@@ -98,6 +109,12 @@ class Node:
 
     def remove(self, value):
         """ Remove element with value from tree.
+
+        :param value:
+            The value that is going to be removed.
+
+        :return: bool
+            Returns true if element is found, else false.
         """
         subtree = self.sorted_list()
         try:
@@ -117,6 +134,9 @@ class Node:
     # Changed from subtree to sorted_list
     def sorted_list(self):
         """ Sorted list of elements.
+
+        :return: list
+            Returns a list representation of the binary tree
         """
         if self.left:
             left = self.left.sorted_list()
@@ -166,7 +186,6 @@ if __name__ == '__main__':
     - Fix the error, when adding a str to an int tree. How to handle it?
     """
 
-
     import doctest
 
     doctest.testmod()
@@ -186,7 +205,4 @@ if __name__ == '__main__':
     print("Int value of ASCII T: " + str(ord("T")))
     print("Int value of ASCII t: " + str(ord("t")))
 
-    print(root[4])
-
-    
 
