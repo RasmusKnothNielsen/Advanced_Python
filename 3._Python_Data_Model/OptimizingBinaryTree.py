@@ -14,34 +14,34 @@ class Node:
     Tests:
 
     >>> root = Node(*[5, 1, 7, 8, 2, 3, 0, 9, 6])
-    >>> root.sorted_list()
+    >>> root.__call__()
     [0, 1, 2, 3, 5, 6, 7, 8, 9]
     >>> root.insert([4])
-    >>> root.sorted_list()
+    >>> root.__call__()
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     >>> root.remove(0)
     True
-    >>> root.sorted_list()
+    >>> root.__call__()
     [1, 2, 3, 4, 5, 6, 7, 8, 9]
     >>> root.remove(10)
     False
-    >>> root.sorted_list()
+    >>> root.__call__()
     [1, 2, 3, 4, 5, 6, 7, 8, 9]
     >>> root.insert([8, 4, 10])
-    >>> root.sorted_list()
+    >>> root.__call__()
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     >>> rootStrings = Node(*["Fred", "William", "Tally"])
-    >>> rootStrings.sorted_list()
+    >>> rootStrings.__call__()
     ['Fred', 'Tally', 'William']
     >>> rootStrings.insert(['S'])
     >>> rootStrings.insert(['s'])
-    >>> rootStrings.sorted_list()
+    >>> rootStrings.__call__()
     ['Fred', 'S', 'Tally', 'William', 's']
 
 
     >>> root.insert(['a'])
-    >>> root.sorted_list()
+    >>> root.__call__()
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 'a']
     """
 
@@ -74,7 +74,7 @@ class Node:
         :return: Int
             Returns the size of the binary tree
         """
-        return len(self.sorted_list())
+        return len(self.__call__())
 
     def __contains__(self, value):
         """ Checks if the value is already in the binary tree
@@ -85,7 +85,7 @@ class Node:
         :return: bool
             Returns true if tree contains value, else false."""
 
-        return value in self.sorted_list()
+        return value in self.__call__()
 
     def insert(self, values):
         """ Insert value into tree.
@@ -116,11 +116,11 @@ class Node:
         :return: bool
             Returns true if element is found, else false.
         """
-        subtree = self.sorted_list()
+        subtree = self.__call__()
         try:
             subtree.remove(value)
-        except ValueError:
-            return False
+        except ValueError as error:
+            print("ValueError Exception!", error.strerror)
         random.shuffle(subtree)
         self.left = None
         self.right = None
@@ -131,19 +131,20 @@ class Node:
             self.value = None
         return True
 
-    # Changed from subtree to sorted_list
-    def sorted_list(self):
-        """ Sorted list of elements.
+    # Changed from subtree to the dunder method __call__
+    def __call__(self):
+        """ Returns a sorted list when the object() is called.
+        For example, node()
 
         :return: list
             Returns a list representation of the binary tree
         """
         if self.left:
-            left = self.left.sorted_list()
+            left = self.left.__call__()
         else:
             left = []
         if self.right:
-            right = self.right.sorted_list()
+            right = self.right.__call__()
         else:
             right = []
         return left + [self.value] + right
@@ -193,9 +194,9 @@ if __name__ == '__main__':
     list_of_numbers = [4, 8, 6]
     root = Node(*list_of_numbers)
     root.insert([9])
-    print(root.sorted_list())
+    print(root.__call__())
     root.insert([1, 5, 8, 10])
-    print(root.sorted_list())
+    print(root.__call__())
 
     print(root.__repr__())
 
@@ -204,5 +205,6 @@ if __name__ == '__main__':
     print("Int value of ASCII s: " + str(ord('s')))
     print("Int value of ASCII T: " + str(ord("T")))
     print("Int value of ASCII t: " + str(ord("t")))
+    print(root())
 
 
