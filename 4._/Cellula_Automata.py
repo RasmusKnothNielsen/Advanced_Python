@@ -26,6 +26,9 @@ def render(state):
 
     :param state: String
         The current state of the Cellula Automata line
+
+    >>> render("10010011001001")
+    A  A  AA  A  A
     """
     print(state.replace('1', 'A').replace('0', ' '))  # \u2588 can be used to display white squares.
 
@@ -85,12 +88,26 @@ def user_input_is_valid(rule_number):
 
 if __name__ == "__main__":
 
-    # Save and validate the chosen rule from the user
-    rule = int(sys.argv[1])
-    if user_input_is_valid(rule):
+    number_of_inputs = len(sys.argv)
 
+    if number_of_inputs == 2:
         # Create the initial state
         state = init()
+        rule = int(sys.argv[1])
+
+    if number_of_inputs == 3:
+        # Save and validate the chosen rule from the user
+        rule, state = sys.argv[1:3]
+        print(state)
+        rule = int(rule)
+
+    if number_of_inputs > 3:
+        print(number_of_inputs)
+        print("You must at least provide a rule and optionally an initial state.")
+        exit("Not correct amount of arguments provided")
+
+    # rule = int(sys.argv[1])
+    if user_input_is_valid(rule):
 
         while True:
             render(state)
