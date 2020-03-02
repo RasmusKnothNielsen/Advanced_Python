@@ -88,6 +88,8 @@ def user_input_is_valid(rule_number):
 
 if __name__ == "__main__":
 
+    # Import test module and execute it
+
     number_of_inputs = len(sys.argv)
 
     if number_of_inputs == 2:
