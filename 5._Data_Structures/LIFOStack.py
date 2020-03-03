@@ -54,6 +54,22 @@ class LIFOStack:
         """
         return self.list[len(self) - 1]
 
+    # Empty
+    def empty(self):
+        """
+
+        :return:
+
+        >>> stack = LIFOStack()
+        >>> stack.append(4)
+        >>> stack.empty()
+        False
+        >>> stack.pop()
+        >>> stack.empty()
+        True
+        """
+        return len(self) == 0
+
     # Extend
 
     # Count?
