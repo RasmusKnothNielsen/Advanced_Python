@@ -1,7 +1,7 @@
 class LIFOStack:
 
     def __init__(self):
-        self.list = []
+        self._list = []
 
     # Append / Push
     def append(self, data):
@@ -18,7 +18,7 @@ class LIFOStack:
         >>> print(stack)
         [4, 7, 9]
         """
-        self.list.append(data)
+        self._list.append(data)
 
     # Pop
     def pop(self):
@@ -33,7 +33,7 @@ class LIFOStack:
         >>> print(stack)
         [4, 7]
         """
-        self.list.pop()
+        self._list.pop()
 
     # Peek?
     def peek(self):
@@ -52,7 +52,7 @@ class LIFOStack:
         >>> print(stack)
         [4, 7, 9]
         """
-        return self.list[len(self) - 1]
+        return self._list[len(self) - 1]
 
     # Empty
     def empty(self):
@@ -87,7 +87,7 @@ class LIFOStack:
         >>> print(len(stack))
         3
         """
-        return len(self.list)
+        return len(self._list)
 
     # Clear?
     def clear(self):
@@ -102,13 +102,13 @@ class LIFOStack:
         >>> print(stack)
         []
         """
-        self.list = []
+        self._list = []
 
     # Copy?
 
     # Str
     def __str__(self):
-        return self.list.__str__()
+        return self._list.__str__()
 
 
 if __name__ == "__main__":
