@@ -82,6 +82,11 @@ def user_input_is_valid(rule_number):
 
     :return: bool
         Returns true if the input is between 0 and 255 inclusive, else it returns false.
+
+    >>> user_input_is_valid(124)
+    True
+    >>> user_input_is_valid(300)
+    False
     """
     return True if (-1 < rule_number < 256) else False
 
