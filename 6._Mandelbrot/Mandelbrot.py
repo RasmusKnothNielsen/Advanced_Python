@@ -23,10 +23,10 @@ def mandelbrot(c):
 
 def setup():
     size(WIDTH, HEIGHT)
-    for a in range(0, 512, 1):
-        for b in range(0, 512, 1):
-            real = map(a, 0, 512, -2, 2)
-            imaginary = map(b, 0, 512, -2, 2)
+    for a in range(0, WIDTH, 1):
+        for b in range(0, HEIGHT, 1):
+            real = map(a, 0, WIDTH, -2, 2)
+            imaginary = map(b, 0, HEIGHT, -2, 2)
             c = complex(real, imaginary)
             # print(c, mandelbrot(c))
             if mandelbrot(c) == MAX_ITER:
