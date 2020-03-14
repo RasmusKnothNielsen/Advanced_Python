@@ -1,11 +1,23 @@
-# -*- coding: utf-8 -*-
+"""
+# Cellula Automata
+
+The following script can be run in two different ways:
+- Inside an IDE
+- In a terminal
+
+If you want to start it from a terminal, use the following command
+
+> python Cellula_automata.py [rule] [state]
+
+Remember to comment out the two variables rule and state on line 135-136
+"""
 
 import time
 import os
 import sys
 
 
-def init():
+def calculate_initial_state():
     """
     Function that returns the initial state for the Cellula Automata to evolve from.
 
@@ -14,21 +26,30 @@ def init():
 
     :return: String
         A representation of the initial state
+
     """
-    pad = int((float(os.popen('stty size', 'r').read().split()[1]) / 2) - 1)  # 64
+    # Takes the width of the console, divides it by two and subtracts one.
+    # This way, we are sure to use all of the allocated screen real estate
+    pad = int((float(os.popen('stty size', 'r').read().split()[1]) / 2) - 1)
     return ('0' * pad) + '1' + ('0' * pad)
 
 
-# prints to screen
-def render(state):
+def draw(state):
     """
-    Renders the state in the console in a more human pleasing way.
+    Draws the state in the console in a more human pleasing way.
 
     :param state: String
         The current state of the Cellula Automata line
 
-    >>> render("10010011001001")
+    >>> draw("10010011001001")
     A  A  AA  A  A
+
+    >>> draw("0101101010001101001010111")
+     A AA A A   AA A  A A AAA
+
+    >>> draw("101010101")
+    A A A A A
+
     """
     print(state.replace('1', 'A').replace('0', ' '))  # \u2588 can be used to display white squares.
 
@@ -46,16 +67,25 @@ def evolve(state, rule):
 
     :return: String
         The new state is returned.
+
+    >>> evolve("00000100000", 126)
+    '00001110000'
+
+    >>> evolve("00010001000", 37)
+    '01010101010'
+
+    >>> evolve("10010001011", 20)
+    '01011001000'
     """
     # Convert rule into binary,
     # remove the first two chars (0b)
     # and pad it with zeroes, until it is 8 numbers long
     ruleset = str(bin(rule))[2:].zfill(8)
 
-    # make res population in witch all 1 are 0
+    # make res population in which all 1 are 0
     res = state.replace('1', '0')
 
-    # run on every character in our population
+    # run on every character in the state
     for y in range(0, len(state)):
 
         # run on every pattern
@@ -82,19 +112,34 @@ def user_input_is_valid(rule_number):
 
     :return: bool
         Returns true if the input is between 0 and 255 inclusive, else it returns false.
+
+    >>> user_input_is_valid(23)
+    True
+    >>> user_input_is_valid(270)
+    False
+    >>> user_input_is_valid(-31)
+    False
+    >>> user_input_is_valid(42)
+    True
     """
-    return True if (-1 < rule_number < 256) else False
+    return -1 < rule_number < 256
 
 
 if __name__ == "__main__":
 
     # Import test module and execute it
+    import doctest
+
+    doctest.testmod()
+
+    rule = 126
+    state = "0"*64 + "1" + "0"*64
 
     number_of_inputs = len(sys.argv)
 
     if number_of_inputs == 2:
         # Create the initial state
-        state = init()
+        state = calculate_initial_state()
         rule = int(sys.argv[1])
 
     if number_of_inputs == 3:
@@ -108,11 +153,10 @@ if __name__ == "__main__":
         print("You must at least provide a rule and optionally an initial state.")
         exit("Not correct amount of arguments provided")
 
-    # rule = int(sys.argv[1])
     if user_input_is_valid(rule):
 
         while True:
-            render(state)
+            draw(state)
             state = evolve(state, rule)
             time.sleep(0.1)
 
