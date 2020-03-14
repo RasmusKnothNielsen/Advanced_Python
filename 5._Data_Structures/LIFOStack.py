@@ -4,7 +4,7 @@ class LIFOStack:
         self._list = []
 
     # Append / Push
-    def append(self, data):
+    def push(self, data):
         """
         Function to add an element at the top of a stack
 
@@ -12,9 +12,9 @@ class LIFOStack:
             Data to be inserted at the top of the stack
 
         >>> stack = LIFOStack()
-        >>> stack.append(4)
-        >>> stack.append(7)
-        >>> stack.append(9)
+        >>> stack.push(4)
+        >>> stack.push(7)
+        >>> stack.push(9)
         >>> print(stack)
         [4, 7, 9]
         """
@@ -26,9 +26,9 @@ class LIFOStack:
         Function to remove an element at the top of a stack
 
         >>> stack = LIFOStack()
-        >>> stack.append(4)
-        >>> stack.append(7)
-        >>> stack.append(9)
+        >>> stack.push(4)
+        >>> stack.push(7)
+        >>> stack.push(9)
         >>> stack.pop()
         >>> print(stack)
         [4, 7]
@@ -44,9 +44,9 @@ class LIFOStack:
             The element at the top of the stack
 
         >>> stack = LIFOStack()
-        >>> stack.append(4)
-        >>> stack.append(7)
-        >>> stack.append(9)
+        >>> stack.push(4)
+        >>> stack.push(7)
+        >>> stack.push(9)
         >>> print(stack.peek())
         9
         >>> print(stack)
@@ -61,7 +61,7 @@ class LIFOStack:
         :return:
 
         >>> stack = LIFOStack()
-        >>> stack.append(4)
+        >>> stack.push(4)
         >>> stack.empty()
         False
         >>> stack.pop()
@@ -81,9 +81,9 @@ class LIFOStack:
             Height of stack
 
         >>> stack = LIFOStack()
-        >>> stack.append(4)
-        >>> stack.append(7)
-        >>> stack.append(9)
+        >>> stack.push(4)
+        >>> stack.push(7)
+        >>> stack.push(9)
         >>> print(len(stack))
         3
         """
@@ -95,9 +95,9 @@ class LIFOStack:
         Function that clears the stack, removing all elements.
 
         >>> stack = LIFOStack()
-        >>> stack.append(4)
-        >>> stack.append(7)
-        >>> stack.append(9)
+        >>> stack.push(4)
+        >>> stack.push(7)
+        >>> stack.push(9)
         >>> stack.clear()
         >>> print(stack)
         []
@@ -117,15 +117,15 @@ if __name__ == "__main__":
     doctest.testmod()
 
     stack = LIFOStack()
-    stack.append(5)
-    stack.append(7)
+    stack.push(5)
+    stack.push(7)
     print(stack)
-    stack.append(10)
-    stack.append(20)
+    stack.push(10)
+    stack.push(20)
     stack.pop()
     print(stack)
     print(stack.peek())
     print(stack)
-    stack.append("hi")
+    stack.push("hi")
     print(stack)
     #stack.pop(0)
