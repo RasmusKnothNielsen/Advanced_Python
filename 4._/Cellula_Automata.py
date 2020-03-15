@@ -7,31 +7,16 @@ The following script can be run in two different ways:
 
 If you want to start it from a terminal, use the following command
 
-> python Cellula_automata.py [rule] [state]
+> python Cellula_automata.py [rule] [initial state]
 
-Remember to comment out the two variables rule and state on line 135-136
+Initial state is optional.
+
+Remember to change the two variables rule and state on line 124-125
 """
 
 import time
 import os
 import sys
-
-
-def calculate_initial_state():
-    """
-    Function that returns the initial state for the Cellula Automata to evolve from.
-
-    It takes into consideration how wide the current console is, when determining the initial state.
-    Thus it works on different sizes consoles
-
-    :return: String
-        A representation of the initial state
-
-    """
-    # Takes the width of the console, divides it by two and subtracts one.
-    # This way, we are sure to use all of the allocated screen real estate
-    pad = int((float(os.popen('stty size', 'r').read().split()[1]) / 2) - 1)
-    return ('0' * pad) + '1' + ('0' * pad)
 
 
 def draw(state):
@@ -132,23 +117,24 @@ if __name__ == "__main__":
 
     doctest.testmod()
 
-    rule = 126
-    state = "0"*64 + "1" + "0"*64
-
     number_of_inputs = len(sys.argv)
 
-    if number_of_inputs == 2:
+    if number_of_inputs < 2:
+        # Change these two values, if you want to run the program from inside the IDE
+        rule = 126
+        state = "0" * 64 + "1" + "0" * 64
+
+    elif number_of_inputs == 2:
         # Create the initial state
-        state = calculate_initial_state()
+        state = "0" * 64 + "1" + "0" * 64
         rule = int(sys.argv[1])
 
-    if number_of_inputs == 3:
+    elif number_of_inputs == 3:
         # Save and validate the chosen rule from the user
         rule, state = sys.argv[1:3]
-        print(state)
         rule = int(rule)
 
-    if number_of_inputs > 3:
+    elif number_of_inputs > 3:
         print(number_of_inputs)
         print("You must at least provide a rule and optionally an initial state.")
         exit("Not correct amount of arguments provided")
