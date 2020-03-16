@@ -1,4 +1,3 @@
-# Insert into Processing
 
 MAX_ITER = 10
 
@@ -25,11 +24,10 @@ def setup():
     size(WIDTH, HEIGHT)
     for a in range(0, WIDTH, 1):
         for b in range(0, HEIGHT, 1):
-            real = map(a, 0, WIDTH, -2, 2)
-            imaginary = map(b, 0, HEIGHT, -2, 2)
+            real = map(a, 0, WIDTH, -2, 0.8)
+            imaginary = map(b, 0, HEIGHT, -1.5, 1.5)
             c = complex(real, imaginary)
             # print(c, mandelbrot(c))
             if mandelbrot(c) == MAX_ITER:
                 point(a, b)
     print("Done painting")
-
