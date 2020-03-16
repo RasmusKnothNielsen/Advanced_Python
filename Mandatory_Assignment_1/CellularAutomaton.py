@@ -1,5 +1,14 @@
-# -*- coding: utf-8 -*-
+"""
+@Author: Rasmus Knoth Nielsen
+# Cellula Automata
 
+Start the script from a terminal by using the following command
+
+> python Cellula_automata.py [rule] [initial state]
+
+Initial state is optional.
+
+"""
 import time
 import os
 import sys
