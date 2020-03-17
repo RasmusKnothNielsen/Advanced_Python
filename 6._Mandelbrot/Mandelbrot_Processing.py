@@ -1,3 +1,4 @@
+# Paste the following into Processing.
 
 MAX_ITER = 10
 
