@@ -8,10 +8,10 @@ def gen_fib(num_elements):
             The computed number
         """
     list = []
-    p, pp = 0, 1
+    x, y = 0, 1
     for number in range(num_elements):
-        list.append(p)
-        pp, p = p, p + pp
+        list.append(x)
+        x, y = y, x + y
     return list
 
 
