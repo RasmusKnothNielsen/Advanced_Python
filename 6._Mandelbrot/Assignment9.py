@@ -1,3 +1,6 @@
+"""
+Testing differences in speed with different implementations of the Mandelbrot set.
+"""
 from PIL import Image
 import numpy as np
 from numba import jit
