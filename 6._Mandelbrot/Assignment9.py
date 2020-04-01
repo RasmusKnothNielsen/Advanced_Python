@@ -37,7 +37,8 @@ def mandelbrot_numba(width, height, maxiter):
     n3 = mandelbrot_numpy(c, maxiter)
     return (r1, r2, n3.T)
 
-def MandelbrotNumpy(width, height, max_iterations):
+
+def mandelbrot_using_numpy(width, height, max_iterations):
 
     width, height = width, height
     xmin, xmax = -2, 0.8
@@ -71,7 +72,8 @@ def MandelbrotNumpy(width, height, max_iterations):
     img = Image.fromarray(np.uint8(M.T))
     img.save("MandelbrotNumpy.jpg")
 
-def Mandelbrot(width, height, max_iterations):
+
+def mandelbrot(width, height, max_iterations):
 
     xmin, xmax = -2, 0.8
     ymin, ymax = -1.5, 1.5
@@ -105,12 +107,13 @@ def Mandelbrot(width, height, max_iterations):
     img.frombytes(m.tobytes())
     img.save("Mandelbrot.jpg")
 
+
 if __name__ == "__main__":
     import time
 
     t0 = time.time()
 
-    Mandelbrot(400, 400, 200)
+    mandelbrot(400, 400, 200)
 
     t1 = time.time()
 
