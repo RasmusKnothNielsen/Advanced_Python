@@ -3,9 +3,13 @@
 Advanced Python course
 4. Semester, AP in Computer Science, KEA, Denmark
 """
+import numbers
 from array import array
 import reprlib
 import math
+import functools
+import operator
+import time
 
 
 class Vector:
@@ -28,6 +32,11 @@ class Vector:
       >>> v5 = Vector(range(5))
       >>> v5.x, v5.y, v5.t
       (0.0, 1.0, 3.0)
+
+      >>> v6 = Vector(range(5))
+      >>> v7 = Vector([0, 1, 2, 3, 5])
+      >>> hash(v6) != hash(v7)
+      True
    """
 
     typecode = 'd'
@@ -52,17 +61,23 @@ class Vector:
         return (bytes([ord(self.typecode)]) +
                 bytes(self._components))
 
-    def __eq__(self, other):
-        return tuple(self) == tuple(other)
-
     def __abs__(self):
         return math.sqrt(sum(x * x for x in self))
 
     def __bool__(self):
         return bool(abs(self))
 
+    def __eq__(self, other):
+        if not len(self) == len(other):
+            return False
+        for a, b in zip(self, other):
+            if not a == b:
+                return False
+        return True
+
     def __hash__(self):
-        return id(self)
+        hashes = map(hash, self._components)
+        return functools.reduce(operator.xor, hashes)
 
     def __len__(self):
         return len(self._components)
@@ -112,7 +127,31 @@ if __name__ == '__main__':
 
     v1 = Vector(range(5))
     v2 = Vector(range(10))
+    v3 = Vector([0, 1, 2, 3, 5])
 
-    print(hash(v1))
-    print(hash(id(v2)))
+    # How to hash.
+    # Either by doing a direct hash on the id of the object
+    print("Hash of v1 via id():", hash(id(v1)))
+    print("Hash of v2 via id():", hash(id(v2)))
+    # Or by implementing xor hashing functionality
+    print("Hash of v1 with created hash function:", hash(v1))
+    print("Hash of v2 with created hash function:", hash(v2))
+    print("Hash of v3 with created hash function:", hash(v3))
+
+    # Performance tests
+    listOfVectors = []
+    number_list = [x for x in range(10000)]
+    for i in range(1000):
+        sequence = number_list[0:len(number_list):i+1]
+        vector = Vector(sequence)
+        listOfVectors.append(vector)
+
+    listOfResults = []
+    for i in range(100):
+        start = time.time()
+        for j in range(len(listOfVectors)-1):
+            listOfVectors[j] == listOfVectors[j+1]
+        end = time.time()
+        listOfResults.append(end-start)
+    print(sum(listOfResults)/100)
 
