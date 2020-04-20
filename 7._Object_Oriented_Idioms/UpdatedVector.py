@@ -220,19 +220,6 @@ if __name__ == '__main__':
 
     doctest.testmod(verbose=True, optionflags=doctest.ELLIPSIS)
 
-    v1 = Vector(range(5))
-    v2 = Vector(range(10))
-    v3 = Vector([0, 1, 2, 3, 5])
-
-    # How to hash.
-    # Either by doing a direct hash on the id of the object
-    print("Hash of v1 via id():", hash(id(v1)))
-    print("Hash of v2 via id():", hash(id(v2)))
-    # Or by implementing xor hashing functionality
-    print("Hash of v1 with created hash function:", hash(v1))
-    print("Hash of v2 with created hash function:", hash(v2))
-    print("Hash of v3 with created hash function:", hash(v3))
-
     # Performance tests
     listOfVectors = []
     number_list = [x for x in range(10000)]
