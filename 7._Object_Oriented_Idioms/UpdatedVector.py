@@ -10,6 +10,7 @@ import math
 import functools
 import operator
 import time
+import itertools
 
 
 class Vector:
@@ -37,6 +38,66 @@ class Vector:
       >>> v7 = Vector([0, 1, 2, 3, 5])
       >>> hash(v6) != hash(v7)
       True
+
+
+      # Check if overloading for Vector Addition works
+      >>> l = [1, 2, 3, 4]
+      >>> l + [5]
+      [1, 2, 3, 4, 5]
+      >>> l * 2
+      [1, 2, 3, 4, 1, 2, 3, 4]
+
+      >>> v1 = Vector([3, 4, 5])
+      >>> v2 = Vector([6, 7, 8])
+      >>> v1 + v2
+      Vector([9.0, 11.0, 13.0])
+      >>> v1 + v2 == Vector([3+6, 4+7, 5+8])
+      True
+
+      >>> v1 = Vector([3, 4, 5, 6])
+      >>> v3 = Vector([1, 2])
+      >>> v1 + v3
+      Vector([4.0, 6.0, 5.0, 6.0])
+
+
+      # Check if you can add a list to a vector
+      >>> v1 = Vector([3, 4, 5])
+      >>> v1 + [10, 20, 30]
+      Vector([13.0, 24.0, 35.0])
+      >>> [10, 20, 30] + v1
+      Vector([13.0, 24.0, 35.0])
+
+      # Check if you can add an integer to a vector
+      >>> v = Vector([1, 2, 3])
+      >>> v + 1
+      Vector([2.0, 3.0, 4.0])
+
+
+      # Check if overloading for Scalar Multiplication works
+      >>> v = Vector([0, 1, -2])
+      >>> v * 3
+      Vector([0.0, 3.0, -6.0])
+      >>> 3 * v
+      Vector([0.0, 3.0, -6.0])
+
+
+      # Check if overloading for Matrix Multiplication works
+      >>> v1 = Vector([1, 2, 3])
+      >>> v2 = Vector([5, 6, 7])
+      >>> v1 @ v2 == 38.0 # 1*5 + 2*6 +3*7
+      True
+
+
+      # Check if the check for equality is fixed
+      >>> v1 = Vector([1, 2, 3])
+      >>> v2 = Vector([1, 2, 3])
+      >>> v1 == v2
+      True
+      >>> v1 == (1, 2, 3)
+      False
+      >>> v1 == [1, 2, 3]
+      False
+
    """
 
     typecode = 'd'
@@ -64,16 +125,50 @@ class Vector:
     def __abs__(self):
         return math.sqrt(sum(x * x for x in self))
 
+    def __pos__(self):
+        return Vector(self)
+
+    def __neg__(self):
+        return Vector(-x for x in self)
+
+    def __add__(self, other):
+        if type(other) not in (Vector, int, float, list):
+            return NotImplemented
+        if type(other) in (int, float):
+            return Vector(c + other for c in self._components)
+        else:
+            pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+            return Vector(a + b for a, b in pairs)
+
+    def __radd__(self, other):
+        return self + other
+
+    def __mul__(self, scalar):
+        if isinstance(scalar, numbers.Real):
+            return Vector(n * scalar for n in self)
+        else:
+            return NotImplemented
+
+    def __rmul__(self, scalar):
+        return self * scalar
+
+    def __matmul__(self, other):
+        try:
+            return sum(a * b for a, b in zip(self, other))
+        except TypeError:
+            return NotImplemented
+
+    def __rmatmul__(self, other):
+        return self @ other
+
     def __bool__(self):
         return bool(abs(self))
 
     def __eq__(self, other):
-        if not len(self) == len(other):
-            return False
-        for a, b in zip(self, other):
-            if not a == b:
-                return False
-        return True
+        if isinstance(other, Vector):
+            return len(self) == len(other) and all(a == b for a, b in zip(self, other))
+        else:
+            return NotImplemented
 
     def __hash__(self):
         hashes = map(hash, self._components)
