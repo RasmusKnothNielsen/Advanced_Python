@@ -6,10 +6,10 @@ def apply_rules(letter):
     """Apply rules to an individual letter, and return the result."""
     # Rule 1
     if letter == 'X':
-        new_string = 'X+YF+'
+        new_string = 'X+YF++YF-FX--FXFX-YF+'
     
     elif letter == 'Y':
-        new_string = '-FX-Y'
+        new_string = '-FX+YFYF++YF+FX--FX-Y'
     
     else:
         new_string = letter
@@ -48,7 +48,7 @@ def draw_l_system(some_turtle, instructions, angle, distance):
 ############################################################################
 
 # create the string of turtle instructions
-instruction_string = create_l_system(10, "FX")
+instruction_string = create_l_system(4, "FX")
 print(instruction_string)
 
 # setup for drawing
