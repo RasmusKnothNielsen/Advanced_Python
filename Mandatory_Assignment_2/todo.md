@@ -5,6 +5,14 @@
 - Implement buttondown paint walls, instead of clicking
 - Implement algorithm start on space
 
+Add docstrings
+- Node
+- Engine
+- Algorithms
+    - A*
+    - Dijkstra's
+
+Add unit tests to everything
 
 
 Algoritmer:
