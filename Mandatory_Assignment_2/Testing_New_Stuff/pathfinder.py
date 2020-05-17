@@ -1,6 +1,6 @@
+import numpy as np
 import time
 import os
-
 from colorama import Fore
 from colorama import Style
 
@@ -8,15 +8,28 @@ from colorama import Style
 class Node:
 
     def __init__(self, parent=None, position=None):
+        """
+        Representation of a node on our 2d field.
+
+        g = Distance between starting node and current node
+        h = Distance between current node and ending node
+        f = Sum of g and h ( f = g + h )
+
+        :param parent:
+            The node from which we came on our path to the end node
+
+        :param position:
+            Where on the 2d space this node is placed.
+        """
         self.parent = parent
         self.position = position
 
-        self.g = 0  # dist between current node and start node
-        self.h = 0  # estimated dist between current node and end node
-        self.f = 0  # dist from start plus estimated dist from end (g + h)
+        self.g = 0
+        self.h = 0
+        self.f = 0
 
     def __eq__(self, other):
-        return self.position is other.position
+        return self.position == other.position
 
     def __str__(self):
         return str(self.position)
@@ -32,15 +45,21 @@ class Node:
 
 
 def astar(maze, start, end):
-    start_node = Node(None, start)
-    start_node.set_g(0)
-    start_node.set_h(0)
-    start_node.set_f(0)
+    """
+    Function that defines the A* path finding algorithm
 
+    :param maze:
+        The field onto which the path has to be found
+
+    :param start:
+        Starting point given in a tuple
+
+    :param end:
+        Ending point given in a tuple
+
+    """
+    start_node = Node(None, start)
     end_node = Node(None, end)
-    end_node.set_g(0)
-    end_node.set_h(0)
-    end_node.set_f(0)
 
     open_list = []
     closed_list = []
@@ -62,23 +81,18 @@ def astar(maze, start, end):
         os.system('clear')
         if current_node == end_node:
             path = []
-            # solution = [[0 for x in range(len(maze[numrows]))] for numrows in range(len(maze))]
             solution = maze
-
             print_maze(solution)
             time.sleep(2)
             os.system('clear')
             current = current_node
             while current is not None:
-                os.system('clear')
                 solution[current.position[0]][current.position[
                     1]] = 1  # Should find a better way of representing so that the dead nodes dont have the same appearance
                 print_maze(solution)
-                print("Starting position:", end)
-                print("Ending position:", start)
-                print("Current position:", current.position)
-                print("Number of steps:", count_number_of_steps(maze))
+                print("Current position: ", current.position)
                 time.sleep(2)
+                os.system('clear')
                 path.append(current.position)
                 current = current.parent
 
@@ -120,6 +134,16 @@ def astar(maze, start, end):
 
 
 def print_maze(maze):
+    """
+    Helper method used to print the maze to the terminal in color.
+    Chosen path = 1
+    Walls = 2
+    Testet path = 3
+
+    :param maze:
+        The entire maze
+
+    """
     for line in maze:
         for char in line:
             if char == 1:
@@ -129,7 +153,7 @@ def print_maze(maze):
                 print(f'{Fore.RED}2{Style.RESET_ALL} ', end="")
 
             elif char == 4:
-                print(f'{Fore.YELLOW}3{Style.RESET_ALL} ', end="")
+                print(f'{Fore.YELLOW}1{Style.RESET_ALL} ', end="")
 
             else:
                 print(f'{char} ', end="")
@@ -137,44 +161,23 @@ def print_maze(maze):
     print()
 
 
-def set_starting_point(maze, start):
-    maze[start[0]][start[1]] = 3
-
-
-def set_ending_point(maze, end):
-    maze[end[0]][end[1]] = 4
-
-
-def count_number_of_steps(maze):
-    """ Counts how many steps we have taken so far.
-    Starts at minus one because the first step is not a real step, but just placing the 'cursor' on the starting node"""
-    i = -1
-    for line in maze:
-        for char in line:
-            if char == 1:
-                i += 1
-    return i
-
-
 def main():
     maze = [[0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-    start = (2, 0)
-    end = (8, 7)
-
-    # set_starting_point(maze, start)
-    set_ending_point(maze, end)
+    start = (0, 0)
+    end = (7, 6)
 
     path = astar(maze, end, start)
+
 
 
 if __name__ == '__main__':
