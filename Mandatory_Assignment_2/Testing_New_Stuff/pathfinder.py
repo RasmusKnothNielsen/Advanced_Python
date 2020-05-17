@@ -61,6 +61,9 @@ def astar(maze, start, end):
     start_node = Node(None, start)
     end_node = Node(None, end)
 
+    # Add end point to the maze
+    maze[start[0]][start[1]] = 5
+
     open_list = []
     closed_list = []
 
@@ -82,17 +85,20 @@ def astar(maze, start, end):
         if current_node == end_node:
             path = []
             solution = maze
-            print_maze(solution)
+
+            print_maze(solution, start, end)
             time.sleep(2)
             os.system('clear')
+
             current = current_node
             while current is not None:
                 solution[current.position[0]][current.position[
                     1]] = 1  # Should find a better way of representing so that the dead nodes dont have the same appearance
-                print_maze(solution)
-                print("Current position: ", current.position)
+
+                print_maze(solution, start, end, current.position)
                 time.sleep(2)
                 os.system('clear')
+
                 path.append(current.position)
                 current = current.parent
 
@@ -133,12 +139,13 @@ def astar(maze, start, end):
             open_list.append(child)
 
 
-def print_maze(maze):
+def print_maze(maze, start, end, current=None):
     """
     Helper method used to print the maze to the terminal in color.
     Chosen path = 1
     Walls = 2
     Testet path = 3
+    Ending point = 5
 
     :param maze:
         The entire maze
@@ -146,22 +153,34 @@ def print_maze(maze):
     """
     for line in maze:
         for char in line:
+
             if char == 1:
                 print(f'{Fore.GREEN}1{Style.RESET_ALL} ', end="")
 
             elif char == 2:
-                print(f'{Fore.RED}2{Style.RESET_ALL} ', end="")
+                print(f'{Fore.RED}X{Style.RESET_ALL} ', end="")
 
             elif char == 4:
                 print(f'{Fore.YELLOW}1{Style.RESET_ALL} ', end="")
 
+            elif char == 5:
+                print(f'{Fore.GREEN}E{Style.RESET_ALL} ', end="")
+
             else:
-                print(f'{char} ', end="")
+                print(f'O ', end="")
         print()
     print()
+    print("Starting position:", end)
+    print("Ending position:", start)
+    print("Current positiion:", current)
 
 
-def main():
+def predefined_main():
+    """
+    Alter the maze and start / end to the desired configuration.
+    (2) in the maze means walls
+
+    """
     maze = [[0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
@@ -176,9 +195,19 @@ def main():
     start = (0, 0)
     end = (7, 6)
 
-    path = astar(maze, end, start)
+    astar(maze, end, start)
 
+def user_defined_main():
+    print("Welcome to the PathFinding Visualizer")
+    start_input = input("please input the starting position on a matrix of 10*10 (0,0 to 9,9): ")
+    start = convert_input_to_tuple(start_input)
+    print(start)
+
+def convert_input_to_tuple(input):
+    input = input.split(',')
+
+    return int(input[0]), int(input[1])
 
 
 if __name__ == '__main__':
-    main()
+    predefined_main()

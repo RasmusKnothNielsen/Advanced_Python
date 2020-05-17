@@ -1,5 +1,7 @@
 # TODO
 
+- Switch start and end, so that it matches all the way through
+
 - Separate node class and implement it in matrix
 - Fill the squares with color instead of just sides
 - Implement buttondown paint walls, instead of clicking
