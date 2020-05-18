@@ -96,13 +96,14 @@ def astar(maze, start, end):
 
                 path.append(current.position)
                 current = current.parent
-
+            print("Very nice, great success!")
             return path[::-1]
 
         children = []
 
         # If we are not at the end node
         # Create a list of possible new positions
+        # TODO create the new places programatically
         for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
 
             node_pos = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
@@ -163,8 +164,10 @@ def print_maze(maze, start, end, current=None):
         The current node if applicable
 
     """
+    os.system('clear')
     for line in maze:
         for char in line:
+            # dictionary
             if char == 1:
                 print(f'{Fore.GREEN}1{Style.RESET_ALL} ', end="")
 
@@ -184,8 +187,7 @@ def print_maze(maze, start, end, current=None):
     print("Starting position:", end)
     print("Ending position:", start)
     print("Current position:", current)
-    time.sleep(2)
-    os.system('clear')
+    time.sleep(1)
 
 
 def predefined_main():
@@ -194,19 +196,21 @@ def predefined_main():
     (2) in the maze means walls
 
     """
-    maze = [[0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
+    maze = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 2, 2, 0, 0, 0, 0, 0],
+            [0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]]
 
     start = (0, 0)
+    #start = (2, 4)
     end = (7, 6)
+    #end = (1, 8)
 
     astar(maze, end, start)
 

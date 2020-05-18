@@ -2,7 +2,13 @@
 
 - Switch start and end, so that it matches all the way through
 - Add a way to visualize tried paths as yellow
+- Add a count, to be able to display how many steps were used
+- Add a weight of approx 1.4 to going slanted ways
+- Add a way to create the possible paths programatically (line 106)
+- Implement both Dijkstra's and Breadth First
+- Show them next to each other with the same problem
 
+ Add Two
 - Separate node class and implement it in matrix
 - Fill the squares with color instead of just sides
 - Implement buttondown paint walls, instead of clicking
