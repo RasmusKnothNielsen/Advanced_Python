@@ -1,6 +1,7 @@
 # TODO
 
 - Switch start and end, so that it matches all the way through
+- Add a way to visualize tried paths as yellow
 
 - Separate node class and implement it in matrix
 - Fill the squares with color instead of just sides

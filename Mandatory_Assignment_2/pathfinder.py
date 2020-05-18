@@ -1,4 +1,3 @@
-import numpy as np
 import time
 import os
 from colorama import Fore
@@ -19,7 +18,7 @@ class Node:
             The node from which we came on our path to the end node
 
         :param position:
-            Where on the 2d space this node is placed.
+            Where on the 2d space this node is placed, provided as a tuple
         """
         self.parent = parent
         self.position = position
@@ -80,24 +79,20 @@ def astar(maze, start, end):
 
         open_list.pop(current_index)
         closed_list.append(current_node)
-
         os.system('clear')
+
+        # If we are at the end node
         if current_node == end_node:
             path = []
             solution = maze
 
             print_maze(solution, start, end)
-            time.sleep(2)
-            os.system('clear')
 
             current = current_node
             while current is not None:
-                solution[current.position[0]][current.position[
-                    1]] = 1  # Should find a better way of representing so that the dead nodes dont have the same appearance
+                solution[current.position[0]][current.position[1]] = 1
 
                 print_maze(solution, start, end, current.position)
-                time.sleep(2)
-                os.system('clear')
 
                 path.append(current.position)
                 current = current.parent
@@ -106,36 +101,44 @@ def astar(maze, start, end):
 
         children = []
 
+        # If we are not at the end node
+        # Create a list of possible new positions
         for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
 
             node_pos = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
 
+            # If the node is "outside" our maze, continue without saving it as a viable path
             if node_pos[0] > (len(maze) - 1) or node_pos[0] < 0 or node_pos[1] > (len(maze[len(maze) - 1]) - 1) or \
                     node_pos[1] < 0:
                 continue
 
+            # If the node is not walkable, continue with another path
             if maze[node_pos[0]][node_pos[1]] != 0:
                 continue
 
+            # If inside maze and walkable, create node and add it to children
             new_node = Node(current_node, node_pos)
-
             children.append(new_node)
 
+        # For every possible path in our collection
         for child in children:
 
             for closed_child in closed_list:
                 if child == closed_child:
                     continue
 
+            # Set the g, h and f of the current node
             child.set_g(current_node.g + 1)
             child.set_h(
                 (child.position[0] - end_node.position[0]) ** 2 + ((child.position[1] - end_node.position[1]) ** 2))
             child.set_f(child.g + child.h)
 
             for open_node in open_list:
+                # If we are further away from the ending point, continue with another available path
                 if child == open_node and child.g > open_node.g:
                     continue
 
+            # The following node is on the way
             open_list.append(child)
 
 
@@ -144,16 +147,24 @@ def print_maze(maze, start, end, current=None):
     Helper method used to print the maze to the terminal in color.
     Chosen path = 1
     Walls = 2
-    Testet path = 3
+    Tested path = 3
     Ending point = 5
 
     :param maze:
         The entire maze
 
+    :param start:
+        Starting point
+
+    :param end:
+        Ending point
+
+    :param current:
+        The current node if applicable
+
     """
     for line in maze:
         for char in line:
-
             if char == 1:
                 print(f'{Fore.GREEN}1{Style.RESET_ALL} ', end="")
 
@@ -172,7 +183,9 @@ def print_maze(maze, start, end, current=None):
     print()
     print("Starting position:", end)
     print("Ending position:", start)
-    print("Current positiion:", current)
+    print("Current position:", current)
+    time.sleep(2)
+    os.system('clear')
 
 
 def predefined_main():
@@ -181,32 +194,21 @@ def predefined_main():
     (2) in the maze means walls
 
     """
-    maze = [[0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+    maze = [[0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+            [0, 0, 0, 2, 2, 0, 0, 0, 0, 0],
+            [0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
+            [0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
+            [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]]
 
     start = (0, 0)
     end = (7, 6)
 
     astar(maze, end, start)
-
-def user_defined_main():
-    print("Welcome to the PathFinding Visualizer")
-    start_input = input("please input the starting position on a matrix of 10*10 (0,0 to 9,9): ")
-    start = convert_input_to_tuple(start_input)
-    print(start)
-
-def convert_input_to_tuple(input):
-    input = input.split(',')
-
-    return int(input[0]), int(input[1])
 
 
 if __name__ == '__main__':
