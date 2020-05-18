@@ -217,7 +217,7 @@ def predefined_main():
     end = (7, 6)
     #end = (1, 8)
 
-    astar(maze, end, start)
+    astar(maze, start, end)
 
 
 if __name__ == '__main__':
