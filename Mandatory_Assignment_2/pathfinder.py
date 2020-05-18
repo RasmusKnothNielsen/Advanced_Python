@@ -128,6 +128,8 @@ def astar(maze, start, end):
                 if child == closed_child:
                     continue
 
+            maze[child.position[0]][child.position[1]] = 6
+            print_maze(maze, end, start, current_node)
             # Set the g, h and f of the current node
             child.set_g(current_node.g + 1)
             child.set_h(
@@ -167,7 +169,7 @@ def print_maze(maze, start, end, current=None):
     os.system('clear')
     for line in maze:
         for char in line:
-            # dictionary
+            # TODO dictionary
             if char == 1:
                 print(f'{Fore.GREEN}1{Style.RESET_ALL} ', end="")
 
@@ -180,6 +182,9 @@ def print_maze(maze, start, end, current=None):
             elif char == 5:
                 print(f'{Fore.GREEN}E{Style.RESET_ALL} ', end="")
 
+            elif char == 6:
+                print(f'{Fore.BLUE}1{Style.RESET_ALL} ', end="")
+
             else:
                 print(f'O ', end="")
         print()
@@ -187,7 +192,7 @@ def print_maze(maze, start, end, current=None):
     print("Starting position:", end)
     print("Ending position:", start)
     print("Current position:", current)
-    time.sleep(1)
+    time.sleep(1/4)
 
 
 def predefined_main():

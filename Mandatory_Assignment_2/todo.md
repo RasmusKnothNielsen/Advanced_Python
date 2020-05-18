@@ -7,6 +7,7 @@
 - Add a way to create the possible paths programatically (line 106)
 - Implement both Dijkstra's and Breadth First
 - Show them next to each other with the same problem
+- When printing, use a dictionary to get the propper prints, instead of a if/else if.
 
  Add Two
 - Separate node class and implement it in matrix
