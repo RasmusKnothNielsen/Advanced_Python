@@ -96,7 +96,7 @@ def astar(maze, start, end):
 
                 path.append(current.position)
                 current = current.parent
-            print("Very nice, great success!")
+            print("\nVery nice, great success!\n")
             return path[::-1]
 
         children = []
@@ -151,7 +151,7 @@ def print_maze(maze, start, end, current=None):
     Chosen path = 1
     Walls = 2
     Tested path = 3
-    Ending point = 5
+    Starting point = 5
 
     :param maze:
         The entire maze
@@ -167,26 +167,10 @@ def print_maze(maze, start, end, current=None):
 
     """
     os.system('clear')
+
     for line in maze:
         for char in line:
-            # TODO dictionary
-            if char == 1:
-                print(f'{Fore.GREEN}1{Style.RESET_ALL} ', end="")
-
-            elif char == 2:
-                print(f'{Fore.RED}X{Style.RESET_ALL} ', end="")
-
-            elif char == 4:
-                print(f'{Fore.YELLOW}1{Style.RESET_ALL} ', end="")
-
-            elif char == 5:
-                print(f'{Fore.GREEN}E{Style.RESET_ALL} ', end="")
-
-            elif char == 6:
-                print(f'{Fore.BLUE}1{Style.RESET_ALL} ', end="")
-
-            else:
-                print(f'O ', end="")
+            print(possibilities.get(char), end="")
         print()
     print()
     print("Starting position:", end)
@@ -194,6 +178,16 @@ def print_maze(maze, start, end, current=None):
     print("Current position:", current)
     time.sleep(1/4)
 
+
+# Dictionary of possibilities on the maze
+possibilities = {
+    0: f'O ',
+    1: f'{Fore.GREEN}1{Style.RESET_ALL} ',
+    2: f'{Fore.RED}X{Style.RESET_ALL} ',
+    4: f'{Fore.YELLOW}1{Style.RESET_ALL} ',
+    5: f'{Fore.GREEN}S{Style.RESET_ALL} ',
+    6: f'{Fore.BLUE}1{Style.RESET_ALL} '
+}
 
 def predefined_main():
     """
@@ -204,10 +198,10 @@ def predefined_main():
     maze = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-            [0, 0, 0, 2, 2, 0, 0, 0, 0, 0],
-            [0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]]
