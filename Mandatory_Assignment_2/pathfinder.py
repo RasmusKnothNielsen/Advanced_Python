@@ -57,6 +57,10 @@ def astar(maze, start, end):
         Ending point given in a tuple
 
     """
+
+    # Starting at -1, since the first step is just starting from the starting position
+    number_of_steps = -1
+
     start_node = Node(None, start)
     end_node = Node(None, end)
 
@@ -79,6 +83,8 @@ def astar(maze, start, end):
 
         open_list.pop(current_index)
         closed_list.append(current_node)
+        number_of_steps += 1
+        time.sleep(1)
         os.system('clear')
 
         # If we are at the end node
@@ -86,13 +92,13 @@ def astar(maze, start, end):
             path = []
             solution = maze
 
-            print_maze(solution, start, end)
+            print_maze(solution, start, end, number_of_steps)
 
             current = current_node
             while current is not None:
                 solution[current.position[0]][current.position[1]] = 1
 
-                print_maze(solution, start, end, current.position)
+                print_maze(solution, start, end, number_of_steps, current.position)
 
                 path.append(current.position)
                 current = current.parent
@@ -103,8 +109,8 @@ def astar(maze, start, end):
 
         # If we are not at the end node
         # Create a list of possible new positions
-        # TODO create the new places programatically
-        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
+        possible_positions = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
+        for new_position in possible_positions:
 
             node_pos = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
 
@@ -129,7 +135,7 @@ def astar(maze, start, end):
                     continue
 
             maze[child.position[0]][child.position[1]] = 6
-            print_maze(maze, end, start, current_node)
+            print_maze(maze, end, start, number_of_steps, current_node)
             # Set the g, h and f of the current node
             child.set_g(current_node.g + 1)
             child.set_h(
@@ -145,7 +151,7 @@ def astar(maze, start, end):
             open_list.append(child)
 
 
-def print_maze(maze, start, end, current=None):
+def print_maze(maze, start, end, number_of_steps, current=None):
     """
     Helper method used to print the maze to the terminal in color.
     Chosen path = 1
@@ -162,6 +168,9 @@ def print_maze(maze, start, end, current=None):
     :param end:
         Ending point
 
+    :param number_of_steps:
+        The current number of steps that has been taken on the path towards the ending point
+
     :param current:
         The current node if applicable
 
@@ -176,6 +185,7 @@ def print_maze(maze, start, end, current=None):
     print("Starting position:", end)
     print("Ending position:", start)
     print("Current position:", current)
+    print("Number of steps:", number_of_steps)
     time.sleep(1/4)
 
 
@@ -188,6 +198,8 @@ possibilities = {
     5: f'{Fore.GREEN}S{Style.RESET_ALL} ',
     6: f'{Fore.BLUE}1{Style.RESET_ALL} '
 }
+
+
 
 def predefined_main():
     """

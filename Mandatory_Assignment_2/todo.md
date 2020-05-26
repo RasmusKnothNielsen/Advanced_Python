@@ -1,13 +1,13 @@
 # TODO
 
 - Switch start and end, so that it matches all the way through
-- Add a way to visualize tried paths as yellow
-- Add a count, to be able to display how many steps were used
+- Add a way to visualize tried paths as blue    (DONE)
+- Add a count, to be able to display how many steps were used   (DONE)
 - Add a weight of approx 1.4 to going slanted ways
-- Add a way to create the possible paths programatically (line 106)
+- Add a way to create the possible paths programatically (line 106) (DONE)
 - Implement both Dijkstra's and Breadth First
 - Show them next to each other with the same problem
-- When printing, use a dictionary to get the propper prints, instead of a if/else if.
+- When printing, use a dictionary to get the propper prints, instead of a if/else if. (DONE)
 
  Add Two
 - Separate node class and implement it in matrix
