@@ -7,17 +7,17 @@
 - Add a way to create the possible paths programatically (line 106) (DONE)
 - Implement algorithms
     - Dijkstra's
-    - Breadth First
+    - Breadth First     (DONE)
+    - A*                (DONE)
 - Show them next to each other with the same problem
 - When printing, use a dictionary to get the propper prints, instead of a if/else if. (DONE)
 - Add timing to the search, so it is more visible how fast it is going
 - Research why the breadth first finds a way that is 7 instead of 10??
+- Implement the algorithms as first class functions, thus being able to pass them to the pathfinding algorithm
 
- Add Two
-- Separate node class and implement it in matrix
-- Fill the squares with color instead of just sides
-- Implement buttondown paint walls, instead of clicking
-- Implement algorithm start on space
+- For Dijkstra's, implement a way to calculate distance from node to node.
+    - Is it just the weight? (1 or sqrt(2)?)
+    - Sum of previous path?
 
 Add docstrings
 - Node
@@ -30,9 +30,9 @@ Add unit tests to everything
 
 
 Algoritmer:
-- Breadth First Search
+- Breadth First Search  (DONE)
 - Dijkstra’s Algoritme
-- A*
+- A*                    (DONE)
 
 
 ### A* Pseudocode
