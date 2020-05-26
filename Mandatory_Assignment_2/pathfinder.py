@@ -66,6 +66,9 @@ def astar(maze, start, end):
     # Starting at -1, since the first step is just starting from the starting position
     number_of_steps = -1
 
+    # Counting the number of searched nodes
+    searched_nodes = -1
+
     start_node = Node(None, start)
     end_node = Node(None, end)
 
@@ -96,13 +99,13 @@ def astar(maze, start, end):
             path = []
             solution = maze
 
-            print_maze(solution, start, end, number_of_steps)
+            print_maze(solution, start, end, number_of_steps, searched_nodes)
 
             current = current_node
             while current is not None:
                 solution[current.position[0]][current.position[1]] = 1
 
-                print_maze(solution, start, end, number_of_steps, current.position)
+                print_maze(solution, start, end, number_of_steps, searched_nodes, current.position)
 
                 path.append(current.position)
                 current = current.parent
@@ -143,7 +146,8 @@ def astar(maze, start, end):
                     continue
 
             maze[child.position[0]][child.position[1]] = 6
-            print_maze(maze, end, start, number_of_steps, current_node)
+            searched_nodes += 1
+            print_maze(maze, end, start, number_of_steps, searched_nodes, current_node)
             # Set the g, h and f of the current node
             child.set_g(current_node.g + 1)
             # Calculate the difference a^2 + b^2 * weight
@@ -166,9 +170,89 @@ def dijsktra(maze, start, end):
 
 
 def breadth_first(maze, start, end):
-    pass
 
-def print_maze(maze, start, end, number_of_steps, current=None):
+    number_of_steps = -1
+    searched_nodes = 0
+
+    start_node = Node(None, start)
+    end_node = Node(None, end)
+
+    # Add end point to the maze
+    maze[start[0]][start[1]] = 5
+
+    open_list = []
+    closed_list = []
+
+    open_list.append(start_node)
+
+    while len(open_list) > 0:
+        current_node = open_list[0]
+        current_index = 0
+
+        open_list.pop(current_index)
+        closed_list.append(current_node)
+        number_of_steps += 1
+        os.system('clear')
+
+        # If we are at the end node
+        if current_node == end_node:
+            path = []
+            solution = maze
+
+            print_maze(solution, start, end, 0, searched_nodes)
+
+            current = current_node
+            while current is not None:
+                solution[current.position[0]][current.position[1]] = 1
+
+                print_maze(solution, start, end, 0, searched_nodes, current.position)
+
+                path.append(current.position)
+                current = current.parent
+            print("Number of steps:", len(path) - 1)
+            print("\nVery nice, great success!\n")
+
+            return path[::-1]
+
+        children = []
+
+        possible_positions = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
+        for new_position in possible_positions:
+
+            node_pos = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
+
+            # If the node is "outside" our maze, continue without saving it as a viable path
+            if node_pos[0] > (len(maze) - 1) or node_pos[0] < 0 or node_pos[1] > (len(maze[len(maze) - 1]) - 1) or \
+                    node_pos[1] < 0:
+                continue
+
+            # If the node is not walkable, continue with another path
+            if maze[node_pos[0]][node_pos[1]] != 0:
+                continue
+
+            # If inside maze and walkable, create node and add it to children
+            # Add weight according to what direction we are going
+            if new_position[0] == 0 or new_position[0] == 0:  # If we are going horizontal or vertical
+                new_node = Node(current_node, node_pos)
+            else:
+                new_node = Node(current_node, node_pos, math.sqrt(2))
+            children.append(new_node)
+
+        # For every possible path in our collection
+        for child in children:
+
+            for closed_child in closed_list:
+                if child == closed_child:
+                    continue
+
+            maze[child.position[0]][child.position[1]] = 6
+            searched_nodes += 1
+            print_maze(maze, end, start, 0, searched_nodes, current_node)
+
+            open_list.append(child)
+
+
+def print_maze(maze, start, end, number_of_steps, searched_nodes, current=None):
     """
     Helper method used to print the maze to the terminal in color.
     Chosen path = 1
@@ -188,6 +272,9 @@ def print_maze(maze, start, end, number_of_steps, current=None):
     :param number_of_steps:
         The current number of steps that has been taken on the path towards the ending point
 
+    :param searched_nodes:
+        Number of nodes that has already been searched for possible paths
+
     :param current:
         The current node if applicable
 
@@ -202,7 +289,9 @@ def print_maze(maze, start, end, number_of_steps, current=None):
     print("Starting position:", end)
     print("Ending position:", start)
     print("Current position:", current)
-    print("Number of steps:", number_of_steps)
+    print("Number of searched Nodes:", searched_nodes)
+    if number_of_steps > 0:
+        print("Number of steps:", number_of_steps)
     time.sleep(1/4)
 
 
@@ -240,7 +329,8 @@ def predefined_main():
     end = (7, 6)
     #end = (1, 8)
 
-    astar(maze, start, end)
+    #astar(maze, start, end)
+    breadth_first(maze, start, end)
 
 
 if __name__ == '__main__':

@@ -10,6 +10,8 @@
     - Breadth First
 - Show them next to each other with the same problem
 - When printing, use a dictionary to get the propper prints, instead of a if/else if. (DONE)
+- Add timing to the search, so it is more visible how fast it is going
+- Research why the breadth first finds a way that is 7 instead of 10??
 
  Add Two
 - Separate node class and implement it in matrix
