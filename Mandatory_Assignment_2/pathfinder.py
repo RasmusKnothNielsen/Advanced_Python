@@ -1,12 +1,13 @@
 import time
 import os
+import math
 from colorama import Fore
 from colorama import Style
 
 
 class Node:
 
-    def __init__(self, parent=None, position=None):
+    def __init__(self, parent=None, position=None, weight=1):
         """
         Representation of a node on our 2d field.
 
@@ -22,6 +23,7 @@ class Node:
         """
         self.parent = parent
         self.position = position
+        self.weight = weight
 
         self.g = 0
         self.h = 0
@@ -32,6 +34,9 @@ class Node:
 
     def __str__(self):
         return str(self.position)
+
+    def set_weight(self, val):
+        self.weight = val
 
     def set_g(self, val):
         self.g = val
@@ -84,7 +89,6 @@ def astar(maze, start, end):
         open_list.pop(current_index)
         closed_list.append(current_node)
         number_of_steps += 1
-        time.sleep(1)
         os.system('clear')
 
         # If we are at the end node
@@ -124,7 +128,11 @@ def astar(maze, start, end):
                 continue
 
             # If inside maze and walkable, create node and add it to children
-            new_node = Node(current_node, node_pos)
+            # Add weight according to what direction we are going
+            if new_position[0] == 0 or new_position[0] == 0:    # If we are going horizontal or vertical
+                new_node = Node(current_node, node_pos)
+            else:
+                new_node = Node(current_node, node_pos, math.sqrt(2))
             children.append(new_node)
 
         # For every possible path in our collection
@@ -138,8 +146,10 @@ def astar(maze, start, end):
             print_maze(maze, end, start, number_of_steps, current_node)
             # Set the g, h and f of the current node
             child.set_g(current_node.g + 1)
+            # Calculate the difference a^2 + b^2 * weight
             child.set_h(
-                (child.position[0] - end_node.position[0]) ** 2 + ((child.position[1] - end_node.position[1]) ** 2))
+                ((child.position[0] - end_node.position[0]) ** 2 + ((child.position[1] - end_node.position[1]) ** 2))
+                * child.weight)
             child.set_f(child.g + child.h)
 
             for open_node in open_list:
@@ -150,6 +160,13 @@ def astar(maze, start, end):
             # The following node is on the way
             open_list.append(child)
 
+
+def dijsktra(maze, start, end):
+    pass
+
+
+def breadth_first(maze, start, end):
+    pass
 
 def print_maze(maze, start, end, number_of_steps, current=None):
     """

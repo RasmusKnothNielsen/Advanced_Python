@@ -3,9 +3,11 @@
 - Switch start and end, so that it matches all the way through
 - Add a way to visualize tried paths as blue    (DONE)
 - Add a count, to be able to display how many steps were used   (DONE)
-- Add a weight of approx 1.4 to going slanted ways
+- Add a weight of approx 1.4 to going slanted ways  (DONE)
 - Add a way to create the possible paths programatically (line 106) (DONE)
-- Implement both Dijkstra's and Breadth First
+- Implement algorithms
+    - Dijkstra's
+    - Breadth First
 - Show them next to each other with the same problem
 - When printing, use a dictionary to get the propper prints, instead of a if/else if. (DONE)
 
