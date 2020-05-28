@@ -11,8 +11,8 @@
     - A*                (DONE)
 - Show them next to each other with the same problem
 - When printing, use a dictionary to get the proper prints, instead of a if/else if. (DONE)
-- Add timing to the search, so it is more visible how fast it is going
-- Research why the breadth first finds a way that is 7 instead of 10??
+- Add timing to the search, so it is more visible how fast it is going  (DONE)
+- Research why the breadth first finds a way that is 7 instead of A*'s 10??
 - Implement the algorithms as first class functions, thus being able to pass them to the pathfinding algorithm
 
 - For Dijkstra's, implement a way to calculate distance from node to node.
