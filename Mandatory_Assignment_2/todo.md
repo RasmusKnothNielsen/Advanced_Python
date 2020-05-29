@@ -6,7 +6,7 @@
 - Add a weight of approx 1.4 to going slanted ways  (DONE)
 - Add a way to create the possible paths programatically (line 106) (DONE)
 - Implement algorithms
-    - Dijkstra's
+    - Dijkstra's        (DONE)
     - Breadth First     (DONE)
     - A*                (DONE)
 - Show them next to each other with the same problem
@@ -17,7 +17,7 @@
 
 - For Dijkstra's, implement a way to calculate distance from node to node.
     - Is it just the weight? (1 or sqrt(2)?)
-    - Sum of previous path?
+    - Sum of previous path? (DONE)
 
 Add docstrings
 - Node
@@ -31,7 +31,7 @@ Add unit tests to everything
 
 Algoritmer:
 - Breadth First Search  (DONE)
-- Dijkstra’s Algoritme
+- Dijkstra’s Algoritme  (DONE)
 - A*                    (DONE)
 
 
