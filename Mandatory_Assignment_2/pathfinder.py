@@ -1,7 +1,6 @@
 import time
 import os
 import math
-import heapq    # Used for Dijkstra's algorithm
 from colorama import Fore
 from colorama import Style
 
