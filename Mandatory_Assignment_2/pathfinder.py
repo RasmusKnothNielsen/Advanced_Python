@@ -8,7 +8,7 @@ from colorama import Style
 
 class Node:
 
-    def __init__(self, parent=None, position=None, weight=1, distance=None):
+    def __init__(self, parent=None, position=None, weight=1, distance=math.inf):
         """
         Representation of a node on our 2d field.
 
@@ -25,7 +25,7 @@ class Node:
         self.parent = parent
         self.position = position
         self.weight = weight
-        self.distance = distance
+        self.distance = distance    # Used for Dijkstra's
 
         self.g = 0
         self.h = 0
@@ -42,6 +42,9 @@ class Node:
 
     def set_weight(self, val):
         self.weight = val
+
+    def set_distance(self, val):
+        self.distance = val
 
     def set_g(self, val):
         self.g = val
@@ -173,7 +176,97 @@ def astar(maze, start, end):
 
 
 def dijkstra(maze, start, end):
-    pass
+    number_of_steps = -1
+    searched_nodes = 0
+
+    start_node = Node(None, start, 1, 0)    # Set the distance to 0, instead of infinite
+    end_node = Node(None, end)
+
+    # Add end point to the maze
+    maze[start[0]][start[1]] = 5
+
+    open_list = []
+    closed_list = []
+
+    open_list.append(start_node)
+
+    while len(open_list) > 0:
+        current_node = open_list[0]
+        current_index = 0
+
+        for index, item in enumerate(open_list):
+            if item.distance < current_node.distance:
+                current_node = item
+                current_index = index
+
+        open_list.pop(current_index)
+        closed_list.append(current_node)
+        number_of_steps += 1
+        os.system('clear')
+
+        # If we are at the end node
+        if current_node == end_node:
+            path = []
+            solution = maze
+
+            print_maze(solution, start, end, 0, searched_nodes)
+
+            current = current_node
+            while current is not None:
+                solution[current.position[0]][current.position[1]] = 1
+
+                print_maze(solution, end, start, 0, searched_nodes, current.position)
+                path.append(current.position)
+                print(current.weight)
+                time.sleep(1 / 2)
+                current = current.parent
+
+            print("Number of steps:", len(path) - 1)
+            print("\nVery nice, great success!\n")
+
+            print(path)
+            time.sleep(1)
+            return path[::-1]
+
+        children = []
+
+        possible_positions = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
+
+        for new_position in possible_positions:
+
+            node_pos = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
+
+            # If the node is "outside" our maze, continue without saving it as a viable path
+            if node_pos[0] > (len(maze) - 1) or node_pos[0] < 0 or node_pos[1] > (len(maze[len(maze) - 1]) - 1) or \
+                    node_pos[1] < 0:
+                continue
+
+            # If the node is not walkable, continue with another path
+            if maze[node_pos[0]][node_pos[1]] != 0:
+                continue
+
+            # If inside maze and walkable, create node and add it to children
+            # Add weight according to what direction we are going
+            if new_position[0] == 0 or new_position[1] == 0:  # If we are going horizontal or vertical
+                new_node = Node(current_node, node_pos, 1, current_node.distance + 1)
+            else:
+                new_node = Node(current_node, node_pos, math.sqrt(2), current_node.distance + math.sqrt(2))
+            children.append(new_node)
+
+        # For every possible path in our collection
+        for child in children:
+
+            for closed_child in closed_list:
+                if child == closed_child:
+                    continue
+
+            maze[child.position[0]][child.position[1]] = 6
+            searched_nodes += 1
+            print_maze(maze, end, start, 0, searched_nodes, current_node)
+
+            print(child.position)
+            open_list.append(child)
+
 
 def breadth_first(maze, start, end):
 
@@ -213,7 +306,10 @@ def breadth_first(maze, start, end):
 
                 print_maze(solution, end, start, 0, searched_nodes, current.position)
                 path.append(current.position)
+                print(current.distance)
+                time.sleep(1/2)
                 current = current.parent
+
             print("Number of steps:", len(path) - 1)
             print("\nVery nice, great success!\n")
 
@@ -239,8 +335,11 @@ def breadth_first(maze, start, end):
                 continue
 
             # If inside maze and walkable, create node and add it to children
-            new_node = Node(current_node, node_pos, 1)
-
+            # Add weight according to what direction we are going
+            if new_position[0] == 0 or new_position[1] == 0:    # If we are going horizontal or vertical
+                new_node = Node(current_node, node_pos, 1)
+            else:
+                new_node = Node(current_node, node_pos, math.sqrt(2))
             children.append(new_node)
 
         # For every possible path in our collection
@@ -344,14 +443,15 @@ def predefined_main():
     #start = (0, 0)
     start = (7,1)
     #start = (4, 4)
-    #end = (7, 6)
-    end = (1, 8)
+    end = (7, 6)
+    #end = (1, 8)
     #end = (7, 7)
 
     starting_time = time.time()
 
-    #astar(maze, start, end)
-    breadth_first(maze, start, end)
+    astar(maze, start, end)
+    #breadth_first(maze, start, end)
+    #dijkstra(maze, start, end)
     #find_path(maze, start, end, astar)
 
     ending_time = time.time()
