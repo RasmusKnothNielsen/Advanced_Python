@@ -20,6 +20,13 @@ class Node:
 
         :param position:
             Where on the 2d space this node is placed, provided as a tuple
+
+        :param weight:
+            Used to determine what the weight is from one node back to this one.
+            Should be 1 if we are going horizontally or vertical, otherwise it should be the square root of 2
+
+        :param distance:
+            Used for Dijkstra's to keep track of the total distance from the current node, back to the starting node.
         """
         self.parent = parent
         self.position = position
@@ -55,87 +62,24 @@ class Node:
         self.f = val
 
 
-def astar(maze, start, end):
-    """
-    Function that defines the A* path finding algorithm
-
-    :param maze:
-        The field onto which the path has to be found
-
-    :param start:
-        Starting point given in a tuple
-
-    :param end:
-        Ending point given in a tuple
-
-    """
-
-    find_path(maze, start, end, astar)
-
-def dijkstra(maze, start, end):
-
-    find_path(maze, start, end, dijkstra)
-
-
-def breadth_first(maze, start, end):
-
-    find_path(maze, start, end, breadth_first)
-
-def print_maze(maze, start, end, algo, searched_nodes=0, current=None):
-    """
-    Helper method used to print the maze to the terminal in color.
-    Chosen path = 1
-    Walls = 2
-    Tested path = 3
-    Starting point = 5
-
-    :param maze:
-        The entire maze
-
-    :param start:
-        Starting point
-
-    :param end:
-        Ending point
-
-    :param searched_nodes:
-        Number of nodes that has already been searched for possible paths
-
-    :param current:
-        The current node if applicable
-
-    """
-    os.system('clear')
-
-    print(algo.__name__ + "\n")
-    for line in maze:
-        for char in line:
-            print(possibilities.get(char), end="")
-        print()
-    print()
-    print("Starting position:", end)
-    print("Ending position:", start)
-    print("Current position:", current)
-    print("Number of searched Nodes:", searched_nodes)
-    """
-    if number_of_steps > 0:
-        print("Number of steps:", number_of_steps)
-    """
-    time.sleep(1/16)
-
-
-# Dictionary of possibilities on the maze
-possibilities = {
-    0: f'O ',
-    1: f'{Fore.GREEN}1{Style.RESET_ALL} ',
-    2: f'{Fore.RED}X{Style.RESET_ALL} ',
-    4: f'{Fore.YELLOW}1{Style.RESET_ALL} ',
-    5: f'{Fore.GREEN}S{Style.RESET_ALL} ',
-    6: f'{Fore.BLUE}1{Style.RESET_ALL} '
-}
-
-
 def find_path(maze, start, end, algorithm):
+    """
+    Base function for finding the shortest path, depending on what algorithm that is chosen.
+
+    :param maze:
+        The grid upon the pathfinding is going to happen
+
+    :param start:
+        Starting point provided as a tuple that represents a point on the maze
+
+    :param end:
+        Ending point provided as a tuple that represents a point on the maze
+
+    :param algorithm:
+        String name of chosen algorithm.
+        'astar', 'dijkstra' or 'breadth_first'
+
+    """
 
     # Starting at -1, since the first step is just starting from the starting position
     number_of_steps = -1
@@ -143,7 +87,7 @@ def find_path(maze, start, end, algorithm):
     # Counting the number of searched nodes
     searched_nodes = 0
 
-    if algorithm == dijkstra:
+    if algorithm == 'dijkstra':
         start_node = Node(None, start, 1, 0)
     else:
         start_node = Node(None, start)
@@ -162,11 +106,11 @@ def find_path(maze, start, end, algorithm):
         current_index = 0
 
         for index, item in enumerate(open_list):
-            if algorithm == dijkstra:
+            if algorithm == 'dijkstra':
                 if item.distance < current_node.distance:
                     current_node = item
                     current_index = index
-            elif algorithm == astar:
+            elif algorithm == 'astar':
                 if item.f < current_node.f:
                     current_node = item
                     current_index = index
@@ -219,12 +163,12 @@ def find_path(maze, start, end, algorithm):
             # If inside maze and walkable, create node and add it to children
             # Add weight according to what direction we are going
             if new_position[0] == 0 or new_position[1] == 0:  # If we are going horizontal or vertical
-                if algorithm == dijkstra:
+                if algorithm == 'dijkstra':
                     new_node = Node(current_node, node_pos, 1, current_node.distance + 1)
                 else:
                     new_node = Node(current_node, node_pos, 1)
             else:
-                if algorithm == dijkstra:
+                if algorithm == 'dijkstra':
                     new_node = Node(current_node, node_pos, math.sqrt(2), current_node.distance + math.sqrt(2))
                 else:
                     new_node = Node(current_node, node_pos, math.sqrt(2))
@@ -241,7 +185,7 @@ def find_path(maze, start, end, algorithm):
             searched_nodes += 1
             print_maze(maze, end, start, algorithm, searched_nodes, current_node)
 
-            if algorithm == astar:
+            if algorithm == 'astar':
                 star(current_node, child, end_node, open_list)
 
             # The following node is on the way
@@ -249,6 +193,21 @@ def find_path(maze, start, end, algorithm):
 
 
 def star(current_node, child, end_node, open_list ):
+    """
+    Helper function that sets g, h and f for A* algorithm
+
+    :param current_node:
+        The node from which we came, on the current path.
+
+    :param child:
+        The next possible step on a given path.
+
+    :param end_node:
+        The position of the end node. Is used to determine how far from the ending point we are.
+
+    :param open_list:
+        List of nodes that are still contenders for the shortest path.
+    """
 
     # Set the g, h and f of the current node
     child.set_g(current_node.g + 1)
@@ -262,6 +221,60 @@ def star(current_node, child, end_node, open_list ):
         # If we are further away from the ending point, continue with another available path
         if child == open_node and child.g > open_node.g:
             continue
+
+
+def print_maze(maze, start, end, algo, searched_nodes=0, current=None):
+    """
+    Helper method used to print the maze to the terminal in color.
+    Chosen path = 1
+    Walls = 2
+    Tested path = 3
+    Starting point = 5
+
+    :param maze:
+        The entire maze
+
+    :param start:
+        Starting point
+
+    :param end:
+        Ending point
+
+    :param searched_nodes:
+        Number of nodes that has already been searched for possible paths
+
+    :param current:
+        The current node if applicable
+
+    """
+    os.system('clear')
+
+    print(algo + "\n")
+    for line in maze:
+        for char in line:
+            print(possibilities.get(char), end="")
+        print()
+    print()
+    print("Starting position:", end)
+    print("Ending position:", start)
+    print("Current position:", current)
+    print("Number of searched Nodes:", searched_nodes)
+    """
+    if number_of_steps > 0:
+        print("Number of steps:", number_of_steps)
+    """
+    time.sleep(1/16)
+
+
+# Dictionary of possibilities on the maze
+possibilities = {
+    0: f'O ',
+    1: f'{Fore.GREEN}1{Style.RESET_ALL} ',
+    2: f'{Fore.RED}X{Style.RESET_ALL} ',
+    4: f'{Fore.YELLOW}1{Style.RESET_ALL} ',
+    5: f'{Fore.GREEN}S{Style.RESET_ALL} ',
+    6: f'{Fore.BLUE}1{Style.RESET_ALL} '
+}
 
 
 def main(algorithm):
@@ -303,14 +316,15 @@ def main(algorithm):
 
     starting_time = time.time()
 
-    algorithm(maze, start, end)
+    find_path(maze, start, end, algorithm)
 
     ending_time = time.time()
     result = ending_time - starting_time
-    print(str(algorithm.__name__) + " took: " + str(round(result, 3)) + " seconds")
+    print(str(algorithm) + " took: " + str(round(result, 3)) + " seconds")
 
 
 if __name__ == '__main__':
-    main(astar)
-    main(dijkstra)
-    main(breadth_first)
+    main('breadth_first')
+    main('dijkstra')
+    main('astar')
+

@@ -20,8 +20,8 @@
     - Sum of previous path? (DONE)
 
 Add docstrings
-- Node
-- Engine
+- Node  (DONE)
+- Engine    (DONE)
 - Algorithms
     - A*
     - Dijkstra's
