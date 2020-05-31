@@ -183,7 +183,6 @@ def find_path(maze, start, end, algorithm):
                 current = current.parent
             print("Number of steps:", len(path) - 1)
             print("\nVery nice, great success!\n")
-            time.sleep(2)
 
             return path[::-1]
 
@@ -377,9 +376,9 @@ def main(algorithm):
     start = (0, 0)
     #start = (7,1)
     #start = (4, 4)
-    end = (7, 6)
+    #end = (7, 6)
     #end = (1, 8)
-    #end = (7, 7)
+    end = (7, 7)
 
     starting_time = time.time()
 
@@ -388,6 +387,7 @@ def main(algorithm):
     ending_time = time.time()
     result = ending_time - starting_time
     print(str(algorithm) + " took: " + str(round(result, 3)) + " seconds")
+    time.sleep(2)
 
 
 if __name__ == '__main__':
