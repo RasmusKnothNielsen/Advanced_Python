@@ -40,7 +40,7 @@ class Node:
     def __eq__(self, other):
         return self.position == other.position
 
-    def __lt__(self, other):            # Used for Dijkstra's Priority Queue
+    def __lt__(self, other):            # Used for Dijkstra's
         return self.distance < other.distance
 
     def __str__(self):
@@ -79,6 +79,8 @@ def find_path(maze, start, end, algorithm):
         String name of chosen algorithm.
         'astar', 'dijkstra' or 'breadth_first'
 
+
+
     """
 
     # Starting at -1, since the first step is just starting from the starting position
@@ -107,14 +109,17 @@ def find_path(maze, start, end, algorithm):
 
         for index, item in enumerate(open_list):
             if algorithm == 'dijkstra':
+                # Find the shortest distance from start to this node
                 if item.distance < current_node.distance:
                     current_node = item
                     current_index = index
             elif algorithm == 'astar':
+                # Find the shortest sum of distance from start to this node and from this node to end
                 if item.f < current_node.f:
                     current_node = item
                     current_index = index
             else:
+                # Breadth first does not implement anything that distinguishes this
                 continue
 
         open_list.pop(current_index)
@@ -122,7 +127,7 @@ def find_path(maze, start, end, algorithm):
         number_of_steps += 1
         os.system('clear')
 
-        # If we are at the end node
+        """If we are at the end node"""
         if current_node == end_node:
             path = []
             solution = maze
@@ -131,6 +136,7 @@ def find_path(maze, start, end, algorithm):
 
             current = current_node
             while current is not None:
+                # Set the node to a 1, for printing purposes
                 solution[current.position[0]][current.position[1]] = 1
 
                 print_maze(solution, start, end, algorithm, searched_nodes, current.position)
@@ -144,23 +150,23 @@ def find_path(maze, start, end, algorithm):
 
         children = []
 
-        # If we are not at the end node
+        """If we are not at the end node"""
         # Create a list of possible new positions
         possible_positions = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
         for new_position in possible_positions:
 
             node_pos = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
 
-            # If the node is "outside" our maze, continue without saving it as a viable path
+            """If the node is "outside" our maze, continue without saving it as a viable path"""
             if node_pos[0] > (len(maze) - 1) or node_pos[0] < 0 or node_pos[1] > (len(maze[len(maze) - 1]) - 1) or \
                     node_pos[1] < 0:
                 continue
 
-            # If the node is not walkable, continue with another path
+            """If the node is not walkable, continue with another path"""
             if maze[node_pos[0]][node_pos[1]] != 0:
                 continue
 
-            # If inside maze and walkable, create node and add it to children
+            """If inside maze and walkable, create node and add it to children"""
             # Add weight according to what direction we are going
             if new_position[0] == 0 or new_position[1] == 0:  # If we are going horizontal or vertical
                 if algorithm == 'dijkstra':
@@ -174,7 +180,7 @@ def find_path(maze, start, end, algorithm):
                     new_node = Node(current_node, node_pos, math.sqrt(2))
             children.append(new_node)
 
-        # For every possible path in our collection
+        """For every possible path in our collection"""
         for child in children:
 
             for closed_child in closed_list:
@@ -185,6 +191,7 @@ def find_path(maze, start, end, algorithm):
             searched_nodes += 1
             print_maze(maze, end, start, algorithm, searched_nodes, current_node)
 
+            """Set g, h and f for A*"""
             if algorithm == 'astar':
                 star(current_node, child, end_node, open_list)
 
@@ -316,15 +323,24 @@ def main(algorithm):
 
     starting_time = time.time()
 
-    find_path(maze, start, end, algorithm)
+    path = find_path(maze, start, end, algorithm)
 
     ending_time = time.time()
     result = ending_time - starting_time
     print(str(algorithm) + " took: " + str(round(result, 3)) + " seconds")
 
+    return path
+
 
 if __name__ == '__main__':
-    main('breadth_first')
-    main('dijkstra')
-    main('astar')
+
+    import doctest
+    doctest.testmod()
+
+    #main('breadth_first')
+    path = main('dijkstra')
+    print("After main")
+    print(path)
+    print(len(path) - 1)
+    #main('astar')
 
