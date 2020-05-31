@@ -163,7 +163,7 @@ def find_path(maze, start, end, algorithm):
         open_list.pop(current_index)
         closed_list.append(current_node)
         number_of_steps += 1
-        os.system('clear')
+        os.system(clear_command)
 
         """ If we are at the end node """
         if current_node == end_node:
