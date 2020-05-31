@@ -374,6 +374,6 @@ if __name__ == '__main__':
     doctest.testmod()
 
     main('breadth_first')
-    path = main('dijkstra')
+    main('dijkstra')
     main('astar')
 
