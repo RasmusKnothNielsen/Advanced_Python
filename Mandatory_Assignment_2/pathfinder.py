@@ -27,6 +27,47 @@ class Node:
 
         :param distance:
             Used for Dijkstra's to keep track of the total distance from the current node, back to the starting node.
+
+
+        Breadth First requires neither weight or distance
+        >>> parent = Node(None, (1,2))
+        >>> child = Node(parent, (2,2))
+        >>> child.parent.position
+        (1, 2)
+
+
+        A* requires weigth and two types of distance, one from starting node and one from ending node
+        >>> start_node = Node(None, (1,2))
+        >>> start_node.set_g(0)
+
+        >>> end_node = Node(None, (4,4))
+
+        >>> a_node = Node(start_node, (2,2), 1)
+        >>> a_node.set_g(start_node.g + 1)
+        >>> a_node.set_h(((a_node.position[0] - end_node.position[0]) ** 2 + ((a_node.position[1] - end_node.position[1])
+        ... ** 2)) * child.weight)
+        >>> a_node.set_f(a_node.g + a_node.h)
+
+        >>> b_node = Node(a_node, (3,3), math.sqrt(2))
+        >>> b_node.set_g(a_node.g + 1)
+        >>> b_node.set_h(((b_node.position[0] - end_node.position[0]) ** 2 + ((b_node.position[1] - end_node.position[1])
+        ... ** 2)) * child.weight)
+        >>> b_node.set_f(b_node.g + b_node.h)
+
+        >>> c_node = Node(b_node, (4,4), math.sqrt(2))
+        >>> c_node.set_g(b_node.g + 1)
+        >>> c_node.set_h(((c_node.position[0] - end_node.position[0]) ** 2 + ((c_node.position[1] - end_node.position[1])
+        ... ** 2)) * child.weight)
+        >>> c_node.set_f(c_node.g + c_node.h)
+
+
+        Dijkstra's require weight and distance from starting node
+        >>> a_node = Node(None, (1,2), 1, 0)
+        >>> b_node = Node(a_node, (2,2), 1, a_node.distance + 1)
+        >>> c_node = Node(b_node, (3,3), math.sqrt(2), b_node.distance + math.sqrt(2))
+        >>> c_node.distance
+        2.414213562373095
+
         """
         self.parent = parent
         self.position = position
@@ -46,19 +87,19 @@ class Node:
     def __str__(self):
         return str(self.position)
 
-    def set_weight(self, val):
+    def set_weight(self, val):          # Used for Dijkstra's and A*
         self.weight = val
 
-    def set_distance(self, val):
+    def set_distance(self, val):        # Used for Dijkstra's
         self.distance = val
 
-    def set_g(self, val):
+    def set_g(self, val):               # Used for A*
         self.g = val
 
-    def set_h(self, val):
+    def set_h(self, val):               # Used for A*
         self.h = val
 
-    def set_f(self, val):
+    def set_f(self, val):               # Used for A*
         self.f = val
 
 
@@ -78,9 +119,6 @@ def find_path(maze, start, end, algorithm):
     :param algorithm:
         String name of chosen algorithm.
         'astar', 'dijkstra' or 'breadth_first'
-
-
-
     """
 
     # Starting at -1, since the first step is just starting from the starting position
@@ -199,7 +237,7 @@ def find_path(maze, start, end, algorithm):
             open_list.append(child)
 
 
-def star(current_node, child, end_node, open_list ):
+def star(current_node, child, end_node, open_list):
     """
     Helper function that sets g, h and f for A* algorithm
 
@@ -247,6 +285,9 @@ def print_maze(maze, start, end, algo, searched_nodes=0, current=None):
     :param end:
         Ending point
 
+    :param algo:
+        Used for printing which algorithm is currently used
+
     :param searched_nodes:
         Number of nodes that has already been searched for possible paths
 
@@ -262,18 +303,15 @@ def print_maze(maze, start, end, algo, searched_nodes=0, current=None):
             print(possibilities.get(char), end="")
         print()
     print()
+
     print("Starting position:", end)
     print("Ending position:", start)
     print("Current position:", current)
     print("Number of searched Nodes:", searched_nodes)
-    """
-    if number_of_steps > 0:
-        print("Number of steps:", number_of_steps)
-    """
     time.sleep(1/16)
 
 
-# Dictionary of possibilities on the maze
+# Dictionary of how to format and which text to print in the maze
 possibilities = {
     0: f'O ',
     1: f'{Fore.GREEN}1{Style.RESET_ALL} ',
@@ -288,7 +326,6 @@ def main(algorithm):
     """
     Alter the maze and start / end to the desired configuration.
     (2) in the maze means walls
-
     """
 
     maze = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
@@ -323,13 +360,11 @@ def main(algorithm):
 
     starting_time = time.time()
 
-    path = find_path(maze, start, end, algorithm)
+    find_path(maze, start, end, algorithm)
 
     ending_time = time.time()
     result = ending_time - starting_time
     print(str(algorithm) + " took: " + str(round(result, 3)) + " seconds")
-
-    return path
 
 
 if __name__ == '__main__':
@@ -339,8 +374,5 @@ if __name__ == '__main__':
 
     #main('breadth_first')
     path = main('dijkstra')
-    print("After main")
-    print(path)
-    print(len(path) - 1)
     #main('astar')
 
