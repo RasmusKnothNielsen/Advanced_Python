@@ -16,7 +16,7 @@ Install libraries
 
 Remember to run it from the terminal / Commandprompt
 
-> $ python pathfinder.py
+> $ python pathfinder.py  
 or
-> $ python3 pathfinder.py
+> $ python3 pathfinder.py  
 depending on how you have set up your path variables.
