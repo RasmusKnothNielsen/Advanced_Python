@@ -179,6 +179,7 @@ def find_path(maze, start, end, algorithm):
                 current = current.parent
             print("Number of steps:", len(path) - 1)
             print("\nVery nice, great success!\n")
+            time.sleep(2)
 
             return path[::-1]
 
@@ -327,7 +328,7 @@ def main(algorithm):
     (2) in the maze means walls
     """
 
-    maze = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
+    maze1 = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -337,8 +338,8 @@ def main(algorithm):
             [0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]]
-    """
-    maze = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
+
+    maze2 = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
@@ -348,8 +349,9 @@ def main(algorithm):
             [0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]]
-            """
 
+
+    """ Set Start and End points here """
     start = (0, 0)
     #start = (7,1)
     #start = (4, 4)
@@ -359,7 +361,7 @@ def main(algorithm):
 
     starting_time = time.time()
 
-    find_path(maze, start, end, algorithm)
+    find_path(maze1, start, end, algorithm)
 
     ending_time = time.time()
     result = ending_time - starting_time
@@ -371,7 +373,7 @@ if __name__ == '__main__':
     import doctest
     doctest.testmod()
 
-    #main('breadth_first')
-    #path = main('dijkstra')
+    main('breadth_first')
+    path = main('dijkstra')
     main('astar')
 
