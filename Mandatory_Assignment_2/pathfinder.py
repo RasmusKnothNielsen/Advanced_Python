@@ -133,9 +133,6 @@ def find_path(maze, start, end, algorithm):
         start_node = Node(None, start)
     end_node = Node(None, end)
 
-    # Add end point to the maze
-    maze[start[0]][start[1]] = 5
-
     open_list = []
     closed_list = []
 
@@ -145,27 +142,26 @@ def find_path(maze, start, end, algorithm):
         current_node = open_list[0]
         current_index = 0
 
-        for index, item in enumerate(open_list):
-            if algorithm == 'dijkstra':
-                # Find the shortest distance from start to this node
+        """ Special cases depending on what algorithm is chosen """
+        if algorithm == 'dijkstra':
+            # Find the shortest distance from start to this node
+            for index, item in enumerate(open_list):
                 if item.distance < current_node.distance:
                     current_node = item
                     current_index = index
-            elif algorithm == 'astar':
-                # Find the shortest sum of distance from start to this node and from this node to end
+        elif algorithm == 'astar':
+            # Find the shortest sum of distance from start to this node and from this node to end
+            for index, item in enumerate(open_list):
                 if item.f < current_node.f:
                     current_node = item
                     current_index = index
-            else:
-                # Breadth first does not implement anything that distinguishes this
-                continue
 
         open_list.pop(current_index)
         closed_list.append(current_node)
         number_of_steps += 1
         os.system('clear')
 
-        """If we are at the end node"""
+        """ If we are at the end node """
         if current_node == end_node:
             path = []
             solution = maze
@@ -188,23 +184,23 @@ def find_path(maze, start, end, algorithm):
 
         children = []
 
-        """If we are not at the end node"""
+        """ If we are not at the end node """
         # Create a list of possible new positions
         possible_positions = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
         for new_position in possible_positions:
 
             node_pos = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
 
-            """If the node is "outside" our maze, continue without saving it as a viable path"""
+            """ If the node is "outside" our maze, continue without saving it as a viable path """
             if node_pos[0] > (len(maze) - 1) or node_pos[0] < 0 or node_pos[1] > (len(maze[len(maze) - 1]) - 1) or \
                     node_pos[1] < 0:
                 continue
 
-            """If the node is not walkable, continue with another path"""
-            if maze[node_pos[0]][node_pos[1]] != 0:
+            """ If the node is not walkable, continue with another path """
+            if maze[node_pos[0]][node_pos[1]] not in [0, 4]:
                 continue
 
-            """If inside maze and walkable, create node and add it to children"""
+            """ If inside maze and walkable, create node and add it to children """
             # Add weight according to what direction we are going
             if new_position[0] == 0 or new_position[1] == 0:  # If we are going horizontal or vertical
                 if algorithm == 'dijkstra':
@@ -218,18 +214,18 @@ def find_path(maze, start, end, algorithm):
                     new_node = Node(current_node, node_pos, math.sqrt(2))
             children.append(new_node)
 
-        """For every possible path in our collection"""
+        """ For every possible path in our collection """
         for child in children:
 
             for closed_child in closed_list:
                 if child == closed_child:
                     continue
 
-            maze[child.position[0]][child.position[1]] = 6
+            maze[child.position[0]][child.position[1]] = 3
             searched_nodes += 1
             print_maze(maze, end, start, algorithm, searched_nodes, current_node)
 
-            """Set g, h and f for A*"""
+            """ Set g, h and f for A* """
             if algorithm == 'astar':
                 star(current_node, child, end_node, open_list)
 
@@ -274,7 +270,7 @@ def print_maze(maze, start, end, algo, searched_nodes=0, current=None):
     Chosen path = 1
     Walls = 2
     Tested path = 3
-    Starting point = 5
+    Starting point = 4
 
     :param maze:
         The entire maze
@@ -297,6 +293,10 @@ def print_maze(maze, start, end, algo, searched_nodes=0, current=None):
     """
     os.system('clear')
 
+    # Add start and end point to the maze
+    maze[start[0]][start[1]] = 4
+    maze[end[0]][end[1]] = 4
+
     print(algo + "\n")
     for line in maze:
         for char in line:
@@ -316,9 +316,8 @@ possibilities = {
     0: f'O ',
     1: f'{Fore.GREEN}1{Style.RESET_ALL} ',
     2: f'{Fore.RED}X{Style.RESET_ALL} ',
-    4: f'{Fore.YELLOW}1{Style.RESET_ALL} ',
-    5: f'{Fore.GREEN}S{Style.RESET_ALL} ',
-    6: f'{Fore.BLUE}1{Style.RESET_ALL} '
+    3: f'{Fore.BLUE}1{Style.RESET_ALL} ',
+    4: f'{Fore.GREEN}X{Style.RESET_ALL} '
 }
 
 
@@ -373,6 +372,6 @@ if __name__ == '__main__':
     doctest.testmod()
 
     #main('breadth_first')
-    path = main('dijkstra')
-    #main('astar')
+    #path = main('dijkstra')
+    main('astar')
 
