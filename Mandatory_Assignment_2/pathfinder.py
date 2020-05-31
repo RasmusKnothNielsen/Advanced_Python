@@ -1,5 +1,6 @@
 import time
 import os
+import platform
 import math
 from colorama import Fore
 from colorama import Style
@@ -121,6 +122,9 @@ def find_path(maze, start, end, algorithm):
         'astar', 'dijkstra' or 'breadth_first'
     """
 
+    # Find out which OS the user is running.
+    clear_command = get_clear_command()
+
     # Starting at -1, since the first step is just starting from the starting position
     number_of_steps = -1
 
@@ -166,14 +170,14 @@ def find_path(maze, start, end, algorithm):
             path = []
             solution = maze
 
-            print_maze(solution, start, end, algorithm, searched_nodes)
+            print_maze(solution, start, end, algorithm, clear_command, searched_nodes)
 
             current = current_node
             while current is not None:
                 # Set the node to a 1, for printing purposes
                 solution[current.position[0]][current.position[1]] = 1
 
-                print_maze(solution, start, end, algorithm, searched_nodes, current.position)
+                print_maze(solution, start, end, algorithm, clear_command, searched_nodes, current.position)
 
                 path.append(current.position)
                 current = current.parent
@@ -224,7 +228,7 @@ def find_path(maze, start, end, algorithm):
 
             maze[child.position[0]][child.position[1]] = 3
             searched_nodes += 1
-            print_maze(maze, end, start, algorithm, searched_nodes, current_node)
+            print_maze(maze, end, start, algorithm, clear_command, searched_nodes, current_node)
 
             """ Set g, h and f for A* """
             if algorithm == 'astar':
@@ -265,7 +269,7 @@ def star(current_node, child, end_node, open_list):
             continue
 
 
-def print_maze(maze, start, end, algo, searched_nodes=0, current=None):
+def print_maze(maze, start, end, algo, clear_command, searched_nodes=0, current=None):
     """
     Helper method used to print the maze to the terminal in color.
     Chosen path = 1
@@ -285,6 +289,9 @@ def print_maze(maze, start, end, algo, searched_nodes=0, current=None):
     :param algo:
         Used for printing which algorithm is currently used
 
+    :param clear_command:
+        OS specific command to clear the commandprompt / terminal
+
     :param searched_nodes:
         Number of nodes that has already been searched for possible paths
 
@@ -292,7 +299,7 @@ def print_maze(maze, start, end, algo, searched_nodes=0, current=None):
         The current node if applicable
 
     """
-    os.system('clear')
+    os.system(clear_command)
 
     # Add start and end point to the maze
     maze[start[0]][start[1]] = 4
@@ -320,6 +327,21 @@ possibilities = {
     3: f'{Fore.BLUE}1{Style.RESET_ALL} ',
     4: f'{Fore.GREEN}X{Style.RESET_ALL} '
 }
+
+
+def get_clear_command():
+    """
+    Function that helps with deciding which clear command is appropriate for the users OS.
+
+    :return:
+        Either cls if it is run on windows OS or clear if it is run on Mac OSX
+    """
+    # Find out which OS the user is running.
+    os = platform.system()
+    if os == 'Windows':
+        return "cls"
+    else:
+        return "clear"
 
 
 def main(algorithm):
