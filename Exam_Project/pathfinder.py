@@ -333,7 +333,7 @@ def get_clear_command():
     Function that helps with deciding which clear command is appropriate for the users OS.
 
     :return:
-        Either cls if it is run on windows OS or clear if it is run on Mac OSX
+        Either 'cls' if it is run on windows OS or 'clear' if it is run on Mac OSX
     """
     # Find out which OS the user is running.
     os = platform.system()
