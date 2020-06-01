@@ -9,7 +9,7 @@ Implemented algorithms:
 - Dijkstra's
 - A*
 
-## How to use project?
+## How to use it?
 Install libraries
 
 > $ pip install colorama
