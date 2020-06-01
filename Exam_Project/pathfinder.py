@@ -333,7 +333,7 @@ def get_clear_command():
     Function that helps with deciding which clear command is appropriate for the users OS.
 
     :return:
-        Either 'cls' if it is run on windows OS or 'clear' if it is run on Mac OSX
+        Either cls if it is run on windows OS or clear if it is run on Mac OSX
     """
     # Find out which OS the user is running.
     os = platform.system()
@@ -343,26 +343,11 @@ def get_clear_command():
         return "clear"
 
 
-def main(algorithm, start, end, maze):
+def main(algorithm):
     """
     Alter the maze and start / end to the desired configuration.
     (2) in the maze means walls
     """
-
-    starting_time = time.time()
-
-    find_path(maze, start, end, algorithm)
-
-    ending_time = time.time()
-    result = ending_time - starting_time
-    print(str(algorithm) + " took: " + str(round(result, 3)) + " seconds")
-    time.sleep(2)
-
-
-if __name__ == '__main__':
-
-    import doctest
-    doctest.testmod()
 
     maze1 = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
@@ -386,6 +371,7 @@ if __name__ == '__main__':
             [0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]]
 
+
     """ Set Start and End points here """
     start = (0, 0)
     #start = (7,1)
@@ -394,7 +380,22 @@ if __name__ == '__main__':
     #end = (1, 8)
     end = (7, 7)
 
-    main('breadth_first', start, end, maze1)
-    main('dijkstra', start, end, maze1)
-    main('astar', start, end, maze1)
+    starting_time = time.time()
+
+    find_path(maze1, start, end, algorithm)
+
+    ending_time = time.time()
+    result = ending_time - starting_time
+    print(str(algorithm) + " took: " + str(round(result, 3)) + " seconds")
+    time.sleep(2)
+
+
+if __name__ == '__main__':
+
+    import doctest
+    doctest.testmod()
+
+    main('breadth_first')
+    main('dijkstra')
+    main('astar')
 
