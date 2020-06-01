@@ -343,11 +343,26 @@ def get_clear_command():
         return "clear"
 
 
-def main(algorithm):
+def main(algorithm, start, end, maze):
     """
     Alter the maze and start / end to the desired configuration.
     (2) in the maze means walls
     """
+
+    starting_time = time.time()
+
+    find_path(maze, start, end, algorithm)
+
+    ending_time = time.time()
+    result = ending_time - starting_time
+    print(str(algorithm) + " took: " + str(round(result, 3)) + " seconds")
+    time.sleep(2)
+
+
+if __name__ == '__main__':
+
+    import doctest
+    doctest.testmod()
 
     maze1 = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
@@ -371,7 +386,6 @@ def main(algorithm):
             [0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]]
 
-
     """ Set Start and End points here """
     start = (0, 0)
     #start = (7,1)
@@ -380,22 +394,7 @@ def main(algorithm):
     #end = (1, 8)
     end = (7, 7)
 
-    starting_time = time.time()
-
-    find_path(maze1, start, end, algorithm)
-
-    ending_time = time.time()
-    result = ending_time - starting_time
-    print(str(algorithm) + " took: " + str(round(result, 3)) + " seconds")
-    time.sleep(2)
-
-
-if __name__ == '__main__':
-
-    import doctest
-    doctest.testmod()
-
-    main('breadth_first')
-    main('dijkstra')
-    main('astar')
+    main('breadth_first', start, end, maze1)
+    main('dijkstra', start, end, maze1)
+    main('astar', start, end, maze1)
 
