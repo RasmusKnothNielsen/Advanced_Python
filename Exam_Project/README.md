@@ -1,6 +1,7 @@
 # Path finding visualizer
 
 @Author: Rasmus Knoth Nielen  
+Exam Project  
 Advanced Python  
 Computer Science, KEA  
 Summer, 2020.  

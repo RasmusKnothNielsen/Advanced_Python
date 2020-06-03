@@ -1,3 +1,14 @@
+"""
+Pathfinder.py
+
+Pathfinding visualizer.
+
+@Author: Rasmus Knoth Nielen
+Exam Project
+Advanced Python
+Computer Science, KEA
+Summer, 2020.
+"""
 import time
 import os
 import platform
