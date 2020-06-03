@@ -1,5 +1,9 @@
 # Path finding visualizer
 
+@Author: Rasmus Knoth Nielen  
+Advanced Python  
+Computer Science, KEA  
+Summer, 2020.  
 
 ## What is this project?
 This is a pathfinding program that implements three different algorithms to find a path from a to b.
