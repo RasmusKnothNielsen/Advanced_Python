@@ -31,7 +31,7 @@ depending on how you have set up your path variables.
 
 ## How to change settings?
 Alterations of the starting point, ending point and maze can be done  
-by altering the respective values from line 367 to line 395  
+by altering the respective values from line 364 to line 379  
 
 Furthermore, you can choose which algorithms you want to see solve each maze,  
-by commenting out each method call on line 397 to line 399
+by commenting out each method call on line 396 to line 398

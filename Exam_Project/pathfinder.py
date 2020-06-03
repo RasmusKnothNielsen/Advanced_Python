@@ -360,7 +360,8 @@ def main(algorithm):
     (2) in the maze means walls
     """
 
-    maze1 = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
+    """ Alter maze here """
+    maze = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -371,29 +372,15 @@ def main(algorithm):
             [0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]]
 
-    maze2 = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
-            [0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
-            [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]]
 
 
     """ Set Start and End points here """
     start = (0, 0)
-    #start = (7,1)
-    #start = (4, 4)
-    #end = (7, 6)
-    #end = (1, 8)
     end = (7, 7)
 
     starting_time = time.time()
 
-    find_path(maze1, start, end, algorithm)
+    find_path(maze, start, end, algorithm)
 
     ending_time = time.time()
     result = ending_time - starting_time
