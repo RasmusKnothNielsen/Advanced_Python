@@ -1,9 +1,37 @@
+"""
+Pathfinder.py
+
+Pathfinding visualizer.
+
+@Author: Rasmus Knoth Nielen
+Exam Project
+Advanced Python
+Computer Science, KEA
+Summer, 2020.
+"""
 import time
 import os
 import platform
 import math
 from colorama import Fore
 from colorama import Style
+
+
+def timer(pathfinder):
+    """ Decorator function that times the execution of the algorithm
+    :param: pathfinder
+        The find_path method supplied to support the path finding algorithm
+    """
+    def time_performance(maze, start, end, algorithm):
+
+        starting_time = time.time()
+
+        pathfinder(maze, start, end, algorithm)
+
+        ending_time = time.time()
+        result = ending_time - starting_time
+        print(str(algorithm) + " took: " + str(round(result, 3)) + " seconds")
+    return time_performance
 
 
 class Node:
@@ -104,6 +132,7 @@ class Node:
         self.f = val
 
 
+@timer
 def find_path(maze, start, end, algorithm):
     """
     Base function for finding the shortest path, depending on what algorithm that is chosen.
@@ -131,14 +160,10 @@ def find_path(maze, start, end, algorithm):
     # Counting the number of searched nodes
     searched_nodes = 0
 
-    """
     if algorithm == 'dijkstra':
         start_node = Node(None, start, 1, 0)
     else:
         start_node = Node(None, start)
-    """
-
-    start_node = algorithm().start_node(start)
     end_node = Node(None, end)
 
     open_list = []
@@ -151,7 +176,6 @@ def find_path(maze, start, end, algorithm):
         current_index = 0
 
         """ Special cases depending on what algorithm is chosen """
-        """
         if algorithm == 'dijkstra':
             # Find the shortest distance from start to this node
             for index, item in enumerate(open_list):
@@ -167,9 +191,6 @@ def find_path(maze, start, end, algorithm):
 
         open_list.pop(current_index)
         closed_list.append(current_node)
-        """
-        algorithm().special_case(open_list, closed_list, current_node, current_index)
-
         number_of_steps += 1
         os.system(clear_command)
 
@@ -213,7 +234,6 @@ def find_path(maze, start, end, algorithm):
                 continue
 
             """ If inside maze and walkable, create node and add it to children """
-            """
             # Add weight according to what direction we are going
             if new_position[0] == 0 or new_position[1] == 0:  # If we are going horizontal or vertical
                 if algorithm == 'dijkstra':
@@ -225,8 +245,6 @@ def find_path(maze, start, end, algorithm):
                     new_node = Node(current_node, node_pos, math.sqrt(2), current_node.distance + math.sqrt(2))
                 else:
                     new_node = Node(current_node, node_pos, math.sqrt(2))
-            """
-            new_node = algorithm().create_new_node(new_position, current_node, node_pos)
             children.append(new_node)
 
         """ For every possible path in our collection """
@@ -241,11 +259,8 @@ def find_path(maze, start, end, algorithm):
             print_maze(maze, end, start, algorithm, clear_command, searched_nodes, current_node)
 
             """ Set g, h and f for A* """
-            """
             if algorithm == 'astar':
                 star(current_node, child, end_node, open_list)
-            """
-            algorithm().update_distances(current_node, child, end_node, open_list)
 
             # The following node is on the way
             open_list.append(child)
@@ -281,111 +296,6 @@ def star(current_node, child, end_node, open_list):
         if child == open_node and child.g > open_node.g:
             continue
 
-
-class dijkstra:
-
-    def start_node(self, start):
-        return Node(None, start, 1, 0)
-
-    def special_case(self, open_list, closed_list, current_node, current_index):
-        for index, item in enumerate(open_list):
-            if item.distance < current_node.distance:
-                current_node = item
-                current_index = index
-
-        open_list.pop(current_index)
-        closed_list.append(current_node)
-
-    def create_new_node(self, new_position, current_node, node_pos):
-        if new_position[0] == 0 or new_position[1] == 0:
-            return Node(current_node, node_pos, 1, current_node.distance + 1)
-        else:
-            return Node(current_node, node_pos, math.sqrt(2), current_node.distance + math.sqrt(2))
-
-    def update_distances(self, current_node, child, end_node, open_list):
-        pass
-
-
-class astar:
-
-    def start_node(self, start):
-        return Node(None, start)
-
-    def special_case(self, open_list, closed_list, current_node, current_index):
-        for index, item in enumerate(open_list):
-            if item.f < current_node.f:
-                current_node = item
-                current_index = index
-        open_list.pop(current_index)
-        closed_list.append(current_node)
-
-    def create_new_node(self, new_position, current_node, node_pos):
-        if new_position[0] == 0 or new_position[1] == 0:
-            return Node(current_node, node_pos, 1)
-        else:
-            return Node(current_node, node_pos, math.sqrt(2))
-
-    def update_distances(self, current_node, child, end_node, open_list):
-        """
-        Helper function that sets g, h and f for A* algorithm
-
-        :param current_node:
-            The node from which we came, on the current path.
-
-        :param child:
-            The next possible step on a given path.
-
-        :param end_node:
-            The position of the end node. Is used to determine how far from the ending point we are.
-
-        :param open_list:
-            List of nodes that are still contenders for the shortest path.
-        """
-
-        # Set the g, h and f of the current node
-        child.set_g(current_node.g + 1)
-        # Calculate the difference a^2 + b^2 * weight
-        child.set_h(
-            ((child.position[0] - end_node.position[0]) ** 2 + ((child.position[1] - end_node.position[1]) ** 2))
-            * child.weight)
-        child.set_f(child.g + child.h)
-
-        for open_node in open_list:
-            # If we are further away from the ending point, continue with another available path
-            if child == open_node and child.g > open_node.g:
-                continue
-
-
-class bf:
-
-    def start_node(self, start):
-        return Node(None, start)
-
-    def special_case(self, open_list, closed_list, current_node, current_index):
-        open_list.pop(current_index)
-        closed_list.append(current_node)
-
-    def create_new_node(self, new_position, current_node, node_pos):
-        if new_position[0] == 0 or new_position[1] == 0:
-            return Node(current_node, node_pos, 1)
-        else:
-            return Node(current_node, node_pos, math.sqrt(2))
-
-    def update_distances(self, current_node, child, end_node, open_list):
-        pass
-
-
-"""
-def return_algorithm(name):
-
-    algorithms = {
-        'dijkstra': dijkstra,
-        'astar': astar,
-        'bf': bf
-    }
-
-    return algorithms.get(name)
-"""
 
 def print_maze(maze, start, end, algo, clear_command, searched_nodes=0, current=None):
     """
@@ -423,7 +333,7 @@ def print_maze(maze, start, end, algo, clear_command, searched_nodes=0, current=
     maze[start[0]][start[1]] = 4
     maze[end[0]][end[1]] = 4
 
-    print(algo.__name__ + "\n")
+    print(algo + "\n")
     for line in maze:
         for char in line:
             print(possibilities.get(char), end="")
@@ -468,7 +378,8 @@ def main(algorithm):
     (2) in the maze means walls
     """
 
-    maze1 = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
+    """ Alter maze here """
+    maze = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -479,33 +390,14 @@ def main(algorithm):
             [0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
             [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]]
 
-    maze2 = [[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
-            [0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
-            [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]]
 
 
     """ Set Start and End points here """
     start = (0, 0)
-    #start = (7,1)
-    #start = (4, 4)
-    #end = (7, 6)
-    #end = (1, 8)
     end = (7, 7)
 
-    starting_time = time.time()
+    find_path(maze, start, end, algorithm)
 
-    find_path(maze1, start, end, algorithm)
-
-    ending_time = time.time()
-    result = ending_time - starting_time
-    print(str(algorithm.__name__) + " took: " + str(round(result, 3)) + " seconds")
     time.sleep(2)
 
 
@@ -514,7 +406,11 @@ if __name__ == '__main__':
     import doctest
     doctest.testmod()
 
-    #main(bf)
-    #main(dijkstra)
-    main(astar)
+
+    main('breadth_first')
+
+    main('dijkstra')
+
+    main('astar')
+
 
