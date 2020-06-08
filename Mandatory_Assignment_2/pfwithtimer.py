@@ -315,7 +315,7 @@ def print_maze(maze, start, end, algo, clear_command, searched_nodes=0, current=
     maze[start[0]][start[1]] = 4
     maze[end[0]][end[1]] = 4
 
-    print(algo + "\n")
+    print(algo.upper() + "\n")
     for line in maze:
         for char in line:
             print(possibilities.get(char), end="")
@@ -355,10 +355,28 @@ def get_clear_command():
 
 
 class Timer:
+    """
+    Timer class that acts as a callable object, where we can time and store each run of the algorithms
+
+    >>> t = Timer()
+    >>> t('Starting timer')
+    >>> t('First round')
+    >>> t('Second round')
+    >>> t()
+    [(0.0, 'Starting timer'), (0.0, 'First round'), (0.0, 'Second round')]
+    """
     def __init__(self):
         self._time_stamps = []
 
     def __call__(self, *args):
+        """
+        Used when the object is called, either without an argument, or with one
+
+        :param args:
+            One argument, that signifies what the past timing is about
+        :return:
+            if no argument is provided, it returns the list of timings
+        """
         time_stamp = time.perf_counter()
         if len(args) > 1:
             raise ValueError('Too many arguments provided, please only give one')
@@ -398,6 +416,7 @@ def main(algorithm):
     end = (7, 7)
 
     find_path(maze, start, end, algorithm)
+    time.sleep(3)
 
 
 if __name__ == '__main__':
@@ -413,5 +432,6 @@ if __name__ == '__main__':
     t('Dijkstras finished')
     main('astar')
     t('A* finished')
-    print(t())
+    result = t()
+    print(result)
 
