@@ -15,9 +15,11 @@
 - Research why the breadth first finds a way that is 7 instead of A*'s 10??
 - Implement the algorithms as first class functions, thus being able to pass them to the pathfinding algorithm  (Sorta DONE)
 
+
 - For Dijkstra's, implement a way to calculate distance from node to node.
     - Is it just the weight? (1 or sqrt(2)?)    (DONE)
     - Sum of previous path? (DONE)
+
 
 Add docstrings
 - Node  (DONE)
@@ -26,7 +28,7 @@ Add docstrings
     - A*
     - Dijkstra's
 
-Add unit tests to everything
+Add unit tests to everything    (DONE)
 
 
 Algoritmer:
